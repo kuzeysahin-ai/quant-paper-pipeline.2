@@ -96,6 +96,35 @@ any session that changes state. Read it first, before assuming what's done.
 - This file created. (2026-09-14)
 - Python env + Alpaca client libraries installed. (2026-09-14)
 
+## Pipeline automation (2026-09-14)
+
+**Owner correctly flagged that "Read" had zero actual automation** -- every
+paper read so far was Claude Code reading PDF text and writing notes
+live in conversation, indistinguishable from "paste a paper into a chat
+and ask for a summary." Built `pipeline/read_stage.py` in response: a
+callable script that takes a paper folder and calls the Claude API
+directly (`claude-opus-5`, structured JSON output via
+`output_config.format`) to produce a first-pass extraction, with no live
+conversation required. See `pipeline/README.md`.
+
+- Script is written, installs clean, syntax-checked, and its
+  missing-API-key error path is confirmed correct.
+- **Not yet run against a real API call** -- needs the owner's
+  `ANTHROPIC_API_KEY` in `.env` (separate credential from any Claude
+  Code session; this script calls the API standalone).
+- **Next validation step**: run it on paper #2 and diff the automated
+  `read_extraction_auto.json`/`read_stage_auto.md` against the
+  manually-written `papers/paper-02-groot-huij-zhou-2012/read_notes.md`
+  to check whether the automated first pass is trustworthy before
+  relying on it for a new (3rd) paper.
+- Human review of the output is still expected -- this is a first-pass
+  draft generator, not an unsupervised Read stage.
+- `pipeline/` is now the location for genuinely paper-agnostic code
+  (Read-stage extraction applies identically to any paper from day one).
+  This is distinct from `papers/paper-0N-*/reproduce/` strategy code,
+  which stays paper-specific per CLAUDE.md until 3+ papers exist and
+  common patterns actually emerge.
+
 ## Not done / open questions
 
 - **Owner decision (2026-09-14): paper #1 is now the priority.** Paper #2

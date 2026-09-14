@@ -29,6 +29,21 @@ system, not part of this repo's scope.
    recorded honestly. Most student/personal projects only show the wins;
    this one doesn't, and that honesty is itself a differentiator.
 
+## "Read" is a script, not a conversation — do not regress on this
+
+On 2026-09-14 the owner pointed out that reading a paper's PDF and
+writing notes about it live in a Claude Code conversation is not
+automation — it's functionally identical to pasting the paper into a
+chat and asking for a summary, no matter how thorough the notes are.
+**`pipeline/read_stage.py` exists because of that critique: it calls the
+Claude API programmatically to do first-pass extraction, as a callable
+script, not a conversation.** When processing a new paper, use it (or
+extend it) rather than reverting to reading the PDF text in chat and
+writing `read_notes.md` by hand — that reversion is exactly the thing
+this file was built to stop. Human review of the script's output is
+still expected and still valuable; the automation is in the extraction
+step, not in skipping verification.
+
 ## Two AI tools, no live connection between them — read this before assuming context
 
 - **Cowork** (cloud sandbox, separate conversation) — used for research and
