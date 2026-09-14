@@ -134,3 +134,8 @@ system, not part of this repo's scope.
 Python (real local installs, no sandbox restriction). Alpaca API for data
 now, paper trading and later live execution — same integration throughout.
 See `STATUS.md` for current environment/dependency state.
+
+**PDF handling**: poppler/pdftoppm isn't installed on this machine, so the
+Read tool's native PDF page-rendering doesn't work. Extract text with
+`pypdf` to a `.txt` file next to `source.pdf`, then read the `.txt`
+(pattern used in `papers/paper-0N-*/extracted_text.txt`).

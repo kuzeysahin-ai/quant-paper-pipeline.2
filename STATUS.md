@@ -6,31 +6,49 @@ any session that changes state. Read it first, before assuming what's done.
 
 ## Current phase
 
-**Read stage in progress.** Two papers targeted, one blocked, one done.
+**Read stage done on both papers. Reproduce started on paper #2.**
 
 - **Paper #1**: Stosik & Zaremba (2026), "Short-Term Reversal Persists
   Globally -- If Properly Measured," SSRN 6630998 / Economics Letters.
-  **BLOCKED**: SSRN returns 403 to all automated fetch attempts
-  (Cloudflare bot challenge) -- confirmed this blocks the whole domain,
-  not just this paper. ScienceDirect (the journal) also 403s. No open
-  mirror found (checked Zaremba's personal site, ResearchGate, Google
-  Scholar results -- all point back to SSRN/ScienceDirect). **Needs the
-  owner to manually download via their own browser** and place the PDF at
-  `papers/paper-01-ssrn-6630998/source.pdf`.
+  SSRN/ScienceDirect both blocked automated fetch (Cloudflare/paywall,
+  confirmed domain-wide, not paper-specific) -- **owner manually
+  downloaded and supplied the PDF**, placed at
+  `papers/paper-01-ssrn-6630998/source.pdf`. **Read complete**:
+  `papers/paper-01-ssrn-6630998/read_notes.md`. Key facts: monthly,
+  64-country panel 1990-2023 (DOES overlap Alpaca's 2016+ window, unlike
+  paper #2); main signal is industry-adjusted reversal (raw prior-month
+  return minus industry-peer mean); US result is significant but the
+  *weakest* of the major markets (t=2.12, vs UK t=5.37, Japan t=4.63);
+  regret-based signal (3rd variant tested) is subsumed by
+  industry-adjusted reversal per their own spanning regression, so we
+  don't need to build it separately.
+  **Blocker before Reproduce**: needs industry classification data
+  (GICS/SIC or similar) for US stocks -- Alpaca doesn't provide this,
+  no source lined up yet. Same category of open question as paper #2's
+  universe problem below.
 - **Paper #2**: de Groot, Huij & Zhou (2012), "Another Look at Trading
   Costs and Short-Term Reversal Profits," JBF 36:371-382 -- the primary
-  source behind Quantpedia's "Short Term Reversal Effect in Stocks" page
-  (the owner's second target). **Read complete** -- full text obtained
-  from the Erasmus University open repository (SSRN mirror also blocked
-  for this one). Full write-up: `papers/paper-02-groot-huij-zhou-2012/read_notes.md`.
+  source behind Quantpedia's "Short Term Reversal Effect in Stocks" page.
+  **Read complete**, full text from Erasmus University's open repository
+  (SSRN mirror blocked). Write-up: `papers/paper-02-groot-huij-zhou-2012/read_notes.md`.
   **Important finding**: Quantpedia's methodology description does not
   match the actual paper (wrong formation-period rule, wrong position
-  count) -- see that file's "Discrepancies" section before building
-  anything off the Quantpedia page alone.
-  **Structural limitation discovered**: paper's sample ends Dec 2009,
-  zero overlap with Alpaca's 2016+ coverage -- a same-period Verify
-  against the published numbers is not possible for this paper. Plan is
-  Read -> Reproduce -> Sample (skip formal Verify), per the read_notes.
+  count -- 20/20 not 10/10 on the 100-stock universe) -- see that file's
+  "Discrepancies" section before building anything off the Quantpedia
+  page alone.
+  **Structural limitation**: paper's sample ends Dec 2009, zero overlap
+  with Alpaca's 2016+ coverage -- same-period Verify against the
+  published numbers is not possible. Plan is Read -> Reproduce -> Sample
+  (skip formal Verify), per the read_notes.
+  **Reproduce in progress**: `papers/paper-02-groot-huij-zhou-2012/reproduce/strategy.py`
+  implements the "smart" portfolio construction mechanism (percentile
+  rank, entry into extreme quintile, hold-until-median-crossing exit,
+  replacement). 7 unit tests on synthetic data, all passing --
+  `reproduce/test_strategy.py`. **Not yet wired to real data.** Blocked
+  on the same kind of open question as paper #1: which "100 largest US
+  stocks" universe, over time, without survivorship bias -- no free
+  point-in-time historical constituents source lined up yet. See
+  `reproduce/README.md`'s "What's deliberately NOT here yet" section.
 
 ## Environment
 
@@ -69,17 +87,22 @@ any session that changes state. Read it first, before assuming what's done.
 
 ## Not done / open questions
 
-- Paper #1 PDF still needed from owner (SSRN blocked, see above).
-- Repro/Verify/Sample code structure not designed yet -- per CLAUDE.md,
-  deliberately deferring generalization until 3+ papers are done; first
-  paper's code will be paper-specific.
-- Owner hasn't yet said whether to proceed with Reproduce on paper #2
-  now, or wait until paper #1's PDF is in hand and read both before
-  writing any code.
+- **Two open data-source questions block real Reproduce/Sample work on
+  both papers, and they're the same category of problem:**
+  1. Paper #2: point-in-time historical "100 largest US stocks"
+     membership, without survivorship bias. No free source lined up.
+  2. Paper #1: industry classification (GICS/SIC) for US stocks. No
+     free source lined up. Alpaca provides neither.
+  Both need to be resolved -- or a documented, honest simplification
+  chosen -- before either paper can move past mechanism-only code.
+- pandas/numpy/pytest installed and pinned; PDF text extraction now uses
+  pypdf (poppler/pdftoppm isn't installed locally, Read tool's native PDF
+  rendering doesn't work here -- worth remembering for future papers:
+  extract to a .txt file next to source.pdf, then read that).
 
 ## Next step
 
-Waiting on: (1) owner's decision on whether to start Reproduce for paper
-#2 now vs. wait for paper #1, (2) paper #1's PDF (manual download,
-SSRN blocked for automated access -- add to CLAUDE.md as a known
-constraint: assume SSRN links will need manual retrieval going forward).
+Resolve the two data-source questions above (owner input likely needed --
+neither has an obvious free answer yet). Once at least one is resolved,
+finish wiring that paper's Reproduce stage to real Alpaca/other data and
+move to Sample.

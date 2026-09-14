@@ -1,0 +1,602 @@
+--- PAGE 1 ---
+1 
+ 
+ 
+Short-Term Reversal Persists 
+Globally—If Properly Measured 
+ 
+Jan Stosik † and Adam Zaremba ‡* 
+ 
+Abstract 
+Short-term reversal appears to have weakened in international equity markets because 
+standard measures mix ﬁrm-speciﬁc and industry-wide returns. When evaluated relative 
+to industry peers, the reversal persists. Using data from 64 countries, the conventional 
+strategy delivers negligible returns, whereas an industry-adjusted strategy earns 0.53% 
+per month with a Sharpe ratio of 0.74. The eﬀect reﬂects the reversal of ﬁrm-speciﬁc 
+shocks masked by persistent industry components. A regret-based signal captures the 
+same industry-relative variation and adds no independent return. Reversal did not 
+disappear; it was mismeasured. 
+Keywords: short-term reversal, industry-adjusted reversal, intra-industry reversal, regret 
+anomaly, international equity markets, return predictability, cross-section of stock 
+returns 
+JEL Codes: G12, C53, C55 
+Funding: Adam Zaremba acknowledges the support of the National Science Centre of 
+Poland [grant no. 2025/59/I/HS4/01667]. 
+ 
+This version: April 22, 2026  
+* Corresponding author. 
+† Jan Stosik, Poznan University of Economics and Business, al. Niepodległości 10, 61-875 Poznań, Poland, email: 
+83146@student.ue.poznan.pl. 
+‡ Adam Zaremba, 1) MBS School of Business, 2300 Avenue des Moulins, 34185 Montpellier, France, email: 
+a.zaremba@montpellier-bs.com; 2) Department of Investment and Financial Markets, Institute of Finance, 
+Poznan University of Economics and Business, al. Niepodległości 10, 61 -875 Poznań, Poland, email: 
+adam.zaremba@ue.poznan.pl; 3) Monash Business School, Monash University, Melbourne, Australia. 
+
+
+--- PAGE 2 ---
+2 
+ 
+1. Introduction 
+Short-term reversal once ranked among the most reliable cross-sectional patterns in 
+equity returns (Jegadeesh, 1990; Lehmann, 1990). Recent evidence paints a diﬀerent 
+picture. In many markets—especially large and liquid ones—the eﬀect appears to have 
+weakened or even disappeared (McLean & Pontiﬀ, 2016; Chordia et al., 2014; Chen & 
+Velikov, 2023; Blitz et al., 2024). This shift raises a central question: has short-term 
+reversal vanished, or do standard measures fail to detect it? 
+We show that the apparent decline reﬂects measurement, not economic decay. When 
+recent returns are evaluated relative to industry peers, short-term reversal remains 
+economically large and statistically signiﬁcant across global equity markets. In contrast, 
+the conventional signal based on raw returns delivers negligible returns. Raw returns 
+combine ﬁrm-speciﬁc movements and industry-wide shocks. Firm-speciﬁc shocks tend to 
+reverse, while industry components often persist (Da et al., 2014; Hameed & Mian, 2015; 
+Blitz et al., 2024). When these forces oﬀset each other, the standard signal attenuates 
+predictability. Removing the industry component restores the eﬀect. 
+We test this idea using monthly stock-level data from 64 countries over 1990–2023. We 
+compare three signals that diﬀer only in how they benchmark recent performance: (i) 
+standard reversal based on raw returns, (ii) industry -adjusted reversal based on 
+deviations from industry means, and (iii) a maximum-based signal motivated by the 
+regret anomaly of Arisoy et al. (2024), deﬁned relative to the best-performing peer within 
+the same industry. The last two signals, therefore, represent two ways to improve the 
+standard reversal measure using industry-relative performance. We form long–short 
+portfolios based on each signal and evaluate their performance using standard return 
+and alpha measures. We then examine whether the regret-based signal captures distinct 
+information or a narrower behavioral version of the broader industry-adjusted eﬀect. 
+The evidence is clear. In the pooled global sample, the standard reversal strategy earns 
+0.05% per month with an insigniﬁcant alpha, while the industry-adjusted strategy earns 
+0.53% per month, with a Sharpe ratio of 0.74 and a six-factor alpha of 0.60% (t = 4.14). 
+The contrast is strongest in large markets. In the United Kingdom and China, standard 
+reversal yields negligible returns, whereas the industry-adjusted strategy earns 0.87% 
+and 0.99% per month, respectively. Figure 1 illustrates the diﬀerence. 
+[Insert Figure 1 here] 
+This framework also clariﬁes the relationship between industry-adjusted reversal and the 
+regret-based signal of Arisoy et al. (2024). Both signals rank stocks by relative 
+underperformance within industries, but they use diﬀerent benchmarks: the industry 
+mean in one case and the industry winner in the other. In the global sample, the regret 
+
+
+--- PAGE 3 ---
+3 
+ 
+strategy earns 0.40% per month, indicating that a behavioral, peer-based reﬁnement also 
+improves upon the standard reversal signal. Yet once we control for industry-adjusted 
+reversal, the regret alpha falls to 0.25% (t = 1.34). The evidence, therefore, points to a 
+common underlying eﬀect: the regret signal does not add independent information; it 
+reﬂects the same cross-sectional variation captured by industry-adjusted reversal. 
+Related literature. Our paper relates to the short-term reversal literature initiated by 
+Jegadeesh (1990) and Lehmann (1990). Reversal has been studied extensively in U.S. 
+markets (Nagel, 2012; Hameed & Mian, 2015; Blitz et al., 2024), internationally 
+(Jegadeesh et al., 2025), and in speciﬁc settings such as China (Chen et al., 2022; 
+Neszveda et al., 2022) and international markets (Butt et al., 2021, 2024; Butt & 
+Sadaqat, 2024; Kang et al., 2025). Prior work links reversal to liquidity provision 
+(Campbell et al., 1993; Avramov et al., 2006; Cheng et al., 2017; Da et al., 2014) and 
+behavioral mechanisms, including overreaction (De Bondt & Thaler, 1985; Heyman et 
+al., 2019), sentiment (Daniel et al., 1998; Dyl et al., 2019), and under-inference (Farkas 
+& Neszveda, 2025). We build most directly on Da et al. (2014) and Blitz et al. (2024), 
+extending their industry-based approach to 64 international markets. 
+Furthermore, our evidence speaks to anomaly attenuation (McLean & Pontiﬀ, 2016; 
+Chen & Zimmermann, 2022; Chordia et al., 2014; Chen & Velikov, 2023; Gordon et al., 
+2025; Brogaard & Zarei, 2023). We relate most closely to international studies (Jacobs 
+& Müller, 2020; Hollstein, 2022) and are the ﬁrst to focus on short-term reversal in this 
+context. Our results align with Jacobs and Müller (2020), showing that anomalies need 
+not disappear when carefully measured. 
+Finally, we contribute to the literature on the regret anomaly (Arisoy et al., 2024), 
+studied in the U.S. and Japan (Kim & Ohk, 2025), China (Wang et al., 2026), and 
+globally (Atilgan et al., 2025). Our evidence places that anomaly in a broader framework: 
+regret-based reversal also improves on the raw reversal signal because it evaluates stocks 
+relative to industry peers, but across 64 markets, its return largely reﬂects the same 
+industry-relative variation captured by the more general industry-adjusted measure. 
+The remainder of the paper proceeds as follows. Section 2 describes the data  and 
+methods. Section 3 presents the ﬁndings. Finally, Section 4 concludes. 
+2. Data and Methods 
+We use monthly stock-level data for common equities across 64 developed and emerging 
+markets from January 1990 to December 2023. For each stock -month, the dataset 
+includes excess returns, market capitalization, industry identiﬁers used to construct 
+relative variables, ﬁrm characteristics for factor construction, lagged returns, and 
+industry-adjusted performance measures. U.S. data are from CRSP, while international 
+
+
+--- PAGE 4 ---
+4 
+ 
+return and accounting data come from Compustat. We follow Jensen et al. (2023) for 
+data construction and express all variables in U.S. dollars using Compustat exchange 
+rates, consistent with standard practice in international asset pricing (e.g., Fama and 
+French, 2012, 2017). 
+We restrict the sample to common stocks listed on the main exchanges. At the stock 
+level, we exclude observations with missing returns, prices ≤ 1, missing industry codes, 
+and nano-cap ﬁrms. At the country-month level, we require at least 10 stocks per market. 
+Table A1 in the Online Appendix reports the cross-country composition. The sample 
+includes between 7,206 and 21,698 stocks, with an average of 14,193, and a total of 
+5,790,595 monthly observations. The number and aggregate market capitalization of 
+ﬁrms increase over time, as shown in Figure 2. 
+The ﬁrst signal is the standard short-term reversal measure used in the literature (e.g., 
+Jegadeesh, 1990; Lehmann, 1990). The second is the industry-adjusted reversal signal, 
+deﬁned as the deviation of a stock’s return from the mean return of its industry peers 
+over the previous month, 
+ 𝑅𝐸𝑉𝑖,𝑡
+𝐼𝑁=𝑅𝑖,𝑡−1−𝑅 𝑗,𝑡−1,  (1) 
+where 𝑅 𝑗,𝑡−1 denotes the average return in industry 𝑗. The third signal follows the regret-
+based approach of Arisoy et al. (2024) and measures the deviation from the best -
+performing stock in the industry: 
+ 𝑅𝐸𝐺𝑖,𝑡=𝑅𝑖,𝑡−1−𝑚𝑎𝑥(𝑅𝑘,𝑡−1)
+𝑘∈𝑗
+,  (2) 
+where 𝑚𝑎𝑥(𝑅𝑘,𝑡−1)
+𝑘∈𝑗
+ is the return of the top-performing stock in industry 𝑗. 
+Within each country and month, stocks are sorted into quintile portfolios based on each 
+signal. We compute equal- and value-weighted returns. In all cases, the strategy takes 
+long positions in stocks with the strongest relative underperformance and short positions 
+with the strongest relative outperformance. 
+3. Results 
+This section presents the main results. We ﬁrst compare standard and industry-adjusted 
+reversal, then examine robustness and scrutinize the link between intra-industry reversal 
+and the regret-anomaly-based reﬁnement. 
+
+
+--- PAGE 5 ---
+5 
+ 
+3.1. Baseline Findings 
+Table 1 reports the performance of standard and industry-adjusted short-term reversal 
+across 64 equity markets and in the pooled global sample. The contrast is remarkable. 
+The standard reversal strategy yields weak, often insigniﬁcant results, whereas the 
+industry-adjusted alternative remains economically large and statistically signiﬁcant, 
+consistent with U.S. evidence (Blitz et al., 2024) and extending it internationally. 
+[Insert Table 1 here] 
+In the pooled global sample, the standard strategy generates an average monthly return 
+of 0.05% with a six-factor alpha of 0.18%, neither statistically signiﬁcant. At the country 
+level, signiﬁcant returns appear in only 13 of 64 markets, mostly smaller or less liquid 
+economies such as Chile, Peru, and the Philippines. In large markets, performance 
+remains weak: 0.01% per month in the United States, 0.15% in the United Kingdom, 
+and 0.16% in Germany, none statistically signiﬁcant. 
+By contrast, the industry-adjusted strategy earns 0.53% per month, with a Sharpe ratio 
+of 0.74 and a six-factor alpha of 0.60% (t = 5.02 and 4.14). This represents a substantial 
+improvement over the standard signal. The strategy produces statistically signiﬁcant 
+returns and alphas in 22 of 64 markets, including large and liquid economies such as 
+France (0.68%), Japan (0.82%), the United Kingdom (0.87%), and the United States 
+(0.34%). 
+3.2. Robustness checks 
+Table 2 examines robustness across time and ﬁrm-size groups. The industry-adjusted 
+strategy delivers positive and statistically signiﬁcant returns across subperiods, micro-, 
+small-, and large-cap stocks, and in the global equal-weighted sample, while the standard 
+strategy remains weak. 
+[Insert Table 2 here] 
+Performance is stronger in the ﬁrst half of the sample but remains economically and 
+statistically signiﬁcant in the second, indicating attenuation rather than disappearance. 
+Returns are higher among micro and small caps, yet remain signiﬁcant for large ﬁrms, 
+suggesting the eﬀect does not rely on a single segment. Equal-weighted results point in 
+the same direction. Table 2 reports global equal-weighted portfolios, while detailed 
+country-level results appear in Table A2 in the Online Appendix. Overall, the advantage 
+of the industry-adjusted strategy holds across periods, ﬁrm sizes, and weighting schemes, 
+indicating that short-term reversal persists once returns are measured relative to industry 
+peers. 
+
+
+--- PAGE 6 ---
+6 
+ 
+3.3. Regret-Based Reversal as an Industry-Relative Reﬁnement 
+Arisoy et al. (2024) construct a regret-based signal as the deviation between a stock’s 
+return and the maximum return within its industry. That signal ﬁts naturally into our 
+framework. Both regret-based reversal and industry-adjusted reversal improve on the 
+standard speciﬁcation by evaluating recent performance relative to industry peers rather 
+than in isolation. They diﬀer only in the benchmark: the industry-adjusted signal uses 
+the peer average, whereas the regret signal uses the industry winner. Implicitly, regret 
+may capture a sharper, behaviorally motivated version of the same underlying industry-
+relative reversal. 
+Table 3 supports this interpretation. Panel A shows that the regret strategy is 
+economically meaningful on its own. In the pooled global sample, it earns 0.40% per 
+month with an alpha of 0.39%. Several markets exhibit signiﬁcant returns, although the 
+eﬀect is less widespread than for the industry-adjusted strategy. Benchmarking stocks 
+against industry peers, whether using the mean or the best performer, improves the raw 
+reversal signal. 
+[Insert Table 3 here] 
+Panel B sharpens the distinction between the two signals. If regret captured an 
+independent return premium, the intercept would remain large after controlling for the 
+industry-adjusted strategy. It does not. In the pooled sample, the spanning alpha falls 
+to 0.25% (t = 1.34), while the loading on industry-adjusted reversal remains positive 
+and signiﬁcant, and the regression delivers an R² of 0.05, with higher explanatory power 
+in several individual markets. The regret signal does not introduce a separate source of 
+predictability beyond the industry-adjusted measure. Instead, regret returns co-move 
+with industry-adjusted reversal, consistent with both signals ranking stocks on the same 
+industry-relative dimension, with the regret measure placing more weight on extreme 
+peer comparisons. 
+The cross-country evidence corroborates these conclusions. Only 5 markets exhibit a 
+signiﬁcant spanning alpha, whereas most markets show insigniﬁcant intercepts once 
+industry-adjusted reversal is included. By contrast, exposure to the industry-adjusted 
+strategy remains strong across a broad set of countries. Additional tests in the Online 
+Appendix conﬁrm the same pattern. Equal-weighted results are similar (Table A3), 
+bidirectional spanning tests show that industry-adjusted reversal subsumes the regret 
+strategy whereas the reverse does not (Table A4), and the relation persists across 
+subperiods and ﬁrm-size groups (Table A5). 
+Our results place the regret premium inside the broader industry-adjusted reversal eﬀect. 
+Regret-based reversal improves on the raw signal by evaluating stocks against industry 
+
+
+--- PAGE 7 ---
+7 
+ 
+peers, but it does not stand apart from the more general industry-adjusted measure. The 
+industry-adjusted speciﬁcation remains our primary measure, while the regret signal 
+oﬀers a behavioral interpretation built around extreme peer comparisons. 
+4. Concluding Remarks 
+Industry-adjusted short-term reversal remains strong across international markets, 
+whereas the standard measure delivers weak results. The eﬀect survives across subperiods 
+and speciﬁcations. A regret-based signal also improves on the standard reversal measure 
+by evaluating stocks relative to industry peers, but its return largely reﬂects the broader 
+industry-adjusted eﬀect. The apparent decline of short-term reversal, therefore, reﬂects 
+measurement, not economic decay. 
+
+
+--- PAGE 8 ---
+8 
+ 
+References 
+Arisoy, Y. E., Bali, T. G., & Tang, Y. (2024). Investor regret and stock returns. Management 
+Science, 70(11), 7537–7558.  
+Atilgan, Y., Demirtas, K. O., Gunaydin, A. D., & Tosun, A. D. (2025). Regret in global equity 
+markets. International Review of Financial Analysis, 103, 104198.  
+Avramov, D., Chordia, T., & Goyal, A. (2006). Liquidity and autocorrelations in individual stock 
+returns. The Journal of Finance, 61(5), 2365–2394.  
+Blitz, D., van der Grient, B., & Honarvar, I. (2024). Reversing the trend of short -term 
+reversal. The Journal of Portfolio Management, 50(6), 89–101.  
+Butt, H. A., & Sadaqat, M. (2024). When Is Reversal Strong? Evidence from Developed Markets. 
+Journal of Portfolio Management, 50(9). 
+Butt, H. A., Högholm, K., & Sadaqat, M. (2021). Reversal returns and expected returns from 
+liquidity provision: Evidence from emerging markets. Journal of Multinational Financial 
+Management, 59, 100664.  
+Butt, H. A., Kolari, J. W., & Sadaqat, M. (2024). Market volatility, momentum, and reversal: a 
+switching strategy. Journal of Asset Management, 25(5), 460-478. 
+Campbell, J. Y., Grossman, S. J., & Wang, J. (1993). Trading volume and serial correlation in 
+stock returns. The Quarterly Journal of Economics, 108(4), 905–939.  
+Chen, A. Y., & Zimmermann, T. (2022). Open source cross-sectional asset pricing. Critical 
+Finance Review, 11(2), 207–264.  
+Chen, J.-L., Glabadanidis, P., & Sun, M. (2022). The ﬁve-factor asset pricing model, short-term 
+reversal, and ownership structure: The case of China. International Review of Financial 
+Analysis, 82, 102147.  
+Chen, Z., & Velikov, M. (2023). Zeroing in on the expected returns of anomalies. Journal of 
+Financial and Quantitative Analysis, 58(3), 968–1004.  
+Cheng, S., Hameed, A., Subrahmanyam, A., & Titman, S. (2017). Short-term reversals: The 
+eﬀects of past returns and institutional exits. Journal of Financial and Quantitative 
+Analysis, 52(1), 143–173.  
+Chordia, T., Subrahmanyam, A., & Tong, Q. (2014). Have capital market anomalies attenuated 
+in the recent era of high liquidity and trading activity?  Journal of Accounting and 
+Economics, 58(1), 41–58.  
+Da, Z., Liu, Q., & Schaumburg, E. (2014). A closer look at the short -term return 
+reversal. Management Science, 60(3), 658–674.  
+Daniel, K., Hirshleifer, D., & Subrahmanyam, A. (1998). Investor psychology and security market 
+under- and overreactions. The Journal of Finance, 53(6), 1839–1885.  
+De Bondt, W. F. M., & Thaler, R. (1985). Does the stock market overreact? The Journal of 
+Finance, 40(3), 793–805.  
+Dyl, E. A., Yuksel, H. Z., & Zaynutdinova, G. R. (2019). Price reversals and price continuations 
+following large price movements. Journal of Business Research, 95, 1–12.  
+Fama, E. F., & French, K. R. (2012). Size, value, and momentum in international stock 
+returns. Journal of Financial Economics, 105(3), 457–472.  
+Fama, E. F., & French, K. R. (2017). International tests of a ﬁve -factor asset pricing 
+model. Journal of Financial Economics, 123(3), 441–463.  
+
+
+--- PAGE 9 ---
+9 
+ 
+Farkas, M., & Neszveda, G. (2025). Does underreaction explain short-term return reversals? 
+SSRN. https://doi.org/10.2139/ssrn.4706478  
+Gordon, K., Schneider, M., & Strauss, J. (2025). Stock market anomalies in the modern 
+era. Finance Research Letters, 86, 108650.  
+Hameed, A., & Mian, G. M. (2015). Industries and stock return reversals. Journal of Financial 
+and Quantitative Analysis, 50(1–2), 89–117.  
+Heyman, D., Lescrauwaet, M., & Stieperaere, H. (2019). Investor attention and short-term return 
+reversals. Finance Research Letters, 29, 1–6.  
+Jegadeesh, N. (1990). Evidence of predictable behavior of security returns. The Journal of 
+Finance, 45(3), 881–898.  
+Jegadeesh, N., Luo, J., Subrahmanyam, A., & Titman, S. (2025). Short-term reversals and 
+longer-term momentum around the world: Theory and evidence. The Review of Financial 
+Studies, 38(12), 3673–3728.  
+Jensen, T. I., Kelly, B. T., & Pedersen, L. H. (2023). Is there a replication crisis in ﬁnance? The 
+Journal of Finance, 78(5), 2465–2518.  
+Kang, D., Ryu, D., & Webb, R.I. (2025). Momentum and reversal eﬀects in the Korean stock 
+market. Investment Analysts Journal, 54(4), 611-627. 
+Kim, S., & Ohk, K. (2025). Regret aversion in Japanese and U.S. stock markets: Analyzing the 
+eﬀects of market conditions. Japan and the World Economy, 74, 101311.  
+Lehmann, B. N. (1990). Fads, martingales, and market eﬃciency. The Quarterly Journal of 
+Economics, 105(1), 1–28.  
+McLean, R. D., & Pontiﬀ, J. (2016). Does academic research destroy stock return 
+predictability? The Journal of Finance, 71(1), 5–32.  
+Nagel, S. (2012). Evaporating liquidity. The Review of Financial Studies, 25(7), 2005–2039.  
+Neszveda, G., Till, G., Timár, B., & Varga, M. (2022). Is short-term reversal driven by liquidity 
+provision in emerging markets? Evidence from China. Finance Research Letters, 50, 
+103220.  
+Newey, W. K., & West, K. D. (1987). A simple, positive semi-deﬁnite, heteroskedasticity and 
+autocorrelation consistent covariance matrix. Econometrica, 55(3), 703–708.  
+Wang, S., Han, L., Yang, X., & Qiao, T. (2026). What drives the regret premium: Evidence from 
+China. Journal of International Financial Markets, Institutions and Money, 107, 104244.  
+ 
+
+
+--- PAGE 10 ---
+10 
+ 
+Figure 1. Cumulative Returns of Short-Term Reversal and Related Strategies. 
+The ﬁgure plots cumulative returns of three strategies using monthly data from 64 countries over 1990–2023. The 
+signals diﬀer only in how they measure recent performance: (i) standard reversal based on raw returns, (ii) industry-
+adjusted reversal based on deviations from industry means, and (iii) a maximum-based signal deﬁned relative to the 
+best-performing peer. Each strategy forms value-weighted long–short quintile portfolios, buying (selling) the worst 
+(best) past performers. 
+ 
+ 
+ 
+-50
+0
+50
+100
+150
+200
+250
+1990 1994 1998 2002 2006 2010 2014 2018 2022
+Cumulative return [%]
+Standard reversal Industry-adjusted reversal Regret-based reversal
+
+
+--- PAGE 11 ---
+11 
+ 
+Figure 2. Sample Size over Time 
+The ﬁgure presents the size of the research sample over time in terms of the number of stocks (Panel A) and their 
+total market capitalization in USD billion (Panel B). The sample consists of 64 countries, and the whole study 
+period covers January 1990 to December 2023.  
+Panel A: Number of stocks Panel B: Total market capitalization (USD billion) 
+  
+ 
+0
+5000
+10000
+15000
+20000
+25000
+1990 1998 2006 2014 2022
+0
+20000
+40000
+60000
+80000
+100000
+120000
+1990 1998 2006 2014 2022
+
+
+--- PAGE 12 ---
+12 
+ 
+Table 1. Short-Term Reversal Strategies Across International Equity Markets 
+The table reports the performance of standard and industry -adjusted short-term reversal strategies across 
+international equity markets. The signals diﬀer in how they measure recent performance: the standard strategy uses 
+raw past returns, while the industry-adjusted strategy removes industry eﬀects. In both cases, long–short portfolios 
+buy (sell) value-weighted quintiles of stocks with the strongest relative underperformance (outperformance). 𝑅 denotes 
+the mean monthly return, 𝑆𝑅 the annualized Sharpe ratio, and 𝛼 the monthly alpha relative to the Fama–French six-
+factor model. Newey–West (1987) t-statistics are reported in parentheses. The last row (“# |t-stat| > 1.96”) reports 
+the number of markets with statistically signiﬁcant estimates. Returns and alphas are in percent. The sample period 
+is January 1990 to December 2023. 
+ 
+ Industry-adjusted short-term reversal  Standard short-term reversal 
+ R SR α   R SR α 
+Argentina  1.19 ( 2.52)  0.50  1.14 ( 1.90)   0.54 ( 0.79)  0.15  1.00 ( 1.22) 
+Australia  0.28 ( 1.81)  0.29  0.23 ( 1.55)   0.04 ( 0.18)  0.03  0.10 ( 0.41) 
+Austria -0.09 (-0.37) -0.06 -0.07 (-0.27)   0.28 ( 0.88)  0.15  0.39 ( 1.21) 
+Bangladesh -0.56 (-1.35) -0.28 -0.08 (-0.28)  -0.99 (-1.51) -0.37 -0.26 (-0.46) 
+Belgium  0.05 ( 0.23)  0.03 -0.11 (-0.45)  -0.27 (-0.84) -0.15 -0.46 (-1.25) 
+Brazil  0.19 ( 0.59)  0.13  0.23 ( 0.64)  -0.91 (-2.07) -0.45 -1.07 (-2.25) 
+Bulgaria -0.25 (-0.62) -0.15 -0.02 (-0.06)   0.06 ( 0.09)  0.02 -0.14 (-0.15) 
+Canada  0.33 ( 1.41)  0.17  0.23 ( 0.80)   0.04 ( 0.14)  0.02  0.11 ( 0.33) 
+Chile  0.58 ( 2.33)  0.42  0.51 ( 2.23)   0.70 ( 2.38)  0.38  0.60 ( 2.21) 
+China  0.99 ( 3.73)  0.76  0.64 ( 2.92)   0.58 ( 1.52)  0.31  0.23 ( 0.80) 
+Colombia  0.63 ( 2.23)  0.42  0.36 ( 1.10)  -0.03 (-0.09) -0.01 -0.14 (-0.26) 
+Côte d’Ivoire  0.58 ( 1.04)  0.30 -0.25 (-0.46)   1.24 ( 2.71)  0.46  0.94 ( 1.64) 
+Croatia -0.01 (-0.02) -0.01 -0.36 (-0.84)   0.46 ( 0.96)  0.24  0.07 ( 0.12) 
+Czech Republic  1.19 ( 2.59)  0.52  2.07 ( 2.36)   0.31 ( 0.63)  0.09 -0.10 (-0.10) 
+Denmark -0.04 (-0.16) -0.03  0.06 ( 0.21)  -0.37 (-1.36) -0.20 -0.03 (-0.08) 
+Egypt -0.11 (-0.25) -0.05  0.45 ( 0.90)  -0.52 (-0.87) -0.19 -0.06 (-0.09) 
+Finland  0.10 ( 0.25)  0.05  0.29 ( 0.68)  -0.52 (-1.44) -0.22 -0.65 (-1.73) 
+France  0.68 ( 3.46)  0.59  0.62 ( 2.75)   0.56 ( 2.00)  0.37  0.41 ( 1.49) 
+Germany  0.36 ( 1.91)  0.27  0.49 ( 2.15)   0.16 ( 0.63)  0.09  0.46 ( 1.70) 
+Greece  0.53 ( 1.31)  0.26  0.92 ( 2.42)   0.24 ( 0.51)  0.09  0.47 ( 0.97) 
+Hong Kong  0.30 ( 1.22)  0.19  0.42 ( 1.70)   0.05 ( 0.14)  0.02  0.23 ( 0.62) 
+Hungary  0.09 ( 0.20)  0.04  0.72 ( 1.17)  -0.02 (-0.04) -0.01 -0.41 (-0.67) 
+India  0.63 ( 2.93)  0.37  0.63 ( 2.15)  -0.30 (-0.67) -0.12  0.25 ( 0.49) 
+Indonesia -0.21 (-0.42) -0.09 -0.34 (-0.47)  -0.41 (-0.61) -0.14 -0.02 (-0.02) 
+Ireland  0.22 ( 0.55)  0.10  0.07 ( 0.17)  -0.27 (-0.48) -0.09 -0.43 (-0.73) 
+Israel  0.55 ( 1.88)  0.33  0.32 ( 0.89)  -0.31 (-0.89) -0.15 -0.65 (-1.59) 
+Italy -0.08 (-0.35) -0.06 -0.16 (-0.63)  -0.37 (-1.49) -0.22 -0.17 (-0.66) 
+Japan  0.82 ( 4.63)  0.70  0.84 ( 4.43)   0.94 ( 4.03)  0.63  0.98 ( 3.74) 
+Jordan  0.02 ( 0.05)  0.01 -0.42 (-0.94)  -1.13 (-2.11) -0.53 -0.93 (-1.88) 
+Kuwait  0.48 ( 1.82)  0.33  0.39 ( 1.34)   0.40 ( 1.05)  0.24  0.25 ( 0.64) 
+Luxembourg  0.23 ( 0.33)  0.11  3.08 ( 4.08)   1.45 ( 1.55)  0.50  2.71 ( 1.33) 
+Malaysia  0.57 ( 2.26)  0.42  0.49 ( 2.37)  -0.07 (-0.24) -0.04 -0.01 (-0.02) 
+Mauritius  0.21 ( 0.87)  0.21  0.08 ( 0.27)  -0.28 (-0.85) -0.17  0.17 ( 0.49) 
+Mexico  0.07 ( 0.26)  0.05  0.04 ( 0.12)   0.75 ( 2.30)  0.43  0.47 ( 1.46) 
+Morocco  0.51 ( 1.91)  0.43  0.60 ( 1.98)   0.70 ( 1.55)  0.40  0.86 ( 2.38) 
+Netherlands  0.20 ( 1.05)  0.14  0.04 ( 0.16)   0.04 ( 0.12)  0.02 -0.22 (-0.65) 
+New Zealand  0.27 ( 1.12)  0.20  0.25 ( 1.03)  -0.40 (-1.36) -0.24 -0.22 (-0.70) 
+Norway  0.10 ( 0.29)  0.05  0.13 ( 0.43)  -0.16 (-0.46) -0.08 -0.16 (-0.47) 
+Oman -0.51 (-1.16) -0.27 -0.34 (-0.86)  -1.20 (-2.71) -0.74 -1.15 (-2.73) 
+Pakistan  0.98 ( 2.57)  0.53  1.24 ( 3.58)   0.99 ( 1.95)  0.41  1.05 ( 2.02) 
+
+
+--- PAGE 13 ---
+13 
+ 
+Peru  1.49 ( 3.84)  0.81  1.40 ( 3.33)   1.19 ( 2.50)  0.54  1.55 ( 2.58) 
+Philippines  1.74 ( 3.47)  0.91  1.17 ( 4.55)   1.47 ( 2.44)  0.54  1.03 ( 2.27) 
+Poland  0.83 ( 3.11)  0.58  0.86 ( 2.59)  -0.60 (-1.36) -0.28 -0.26 (-0.68) 
+Portugal  0.03 ( 0.09)  0.02  0.16 ( 0.50)   0.08 ( 0.17)  0.03  0.27 ( 0.65) 
+Qatar  0.81 ( 2.48)  0.50  0.97 ( 2.51)   0.92 ( 1.78)  0.44  0.97 ( 1.99) 
+Russia  0.61 ( 1.13)  0.26  0.59 ( 1.04)   0.95 ( 1.24)  0.34  0.47 ( 0.62) 
+Saudi Arabia  1.23 ( 4.84)  0.93  1.11 ( 3.62)  -0.38 (-0.86) -0.17 -0.18 (-0.41) 
+Singapore  0.25 ( 1.36)  0.21  0.13 ( 0.68)   0.01 ( 0.04)  0.01 -0.27 (-0.87) 
+Slovenia -0.40 (-1.10) -0.26  0.33 ( 0.56)   0.40 ( 0.68)  0.19 -0.25 (-0.39) 
+South Africa  1.10 ( 5.38)  0.89  1.10 ( 5.03)   0.12 ( 0.35)  0.06  0.35 ( 0.97) 
+South Korea  0.44 ( 1.81)  0.25  0.40 ( 1.29)   0.39 ( 0.94)  0.16  0.41 ( 0.82) 
+Spain  0.42 ( 1.76)  0.30  0.25 ( 0.81)   0.20 ( 0.76)  0.12  0.20 ( 0.67) 
+Sri Lanka  0.47 ( 0.99)  0.28  0.55 ( 1.09)  -0.46 (-0.66) -0.17  0.47 ( 0.58) 
+Sweden  0.55 ( 2.57)  0.39  0.43 ( 2.04)   0.52 ( 1.48)  0.26  0.51 ( 1.51) 
+Switzerland  0.51 ( 2.70)  0.36  0.53 ( 2.87)   0.23 ( 1.12)  0.14  0.45 ( 1.81) 
+Taiwan  0.25 ( 0.92)  0.16  0.25 ( 0.79)  -0.16 (-0.39) -0.07 -0.18 (-0.44) 
+Thailand  0.42 ( 1.27)  0.22  0.29 ( 0.97)  -0.83 (-2.13) -0.34 -0.89 (-2.54) 
+Trinidad and Tobago -0.54 (-2.10) -0.57 -0.37 (-1.66)  -1.37 (-3.48) -1.02 -1.13 (-2.82) 
+Tunisia  0.21 ( 0.65)  0.16  0.37 ( 1.19)  -0.38 (-1.01) -0.26  0.02 ( 0.06) 
+Turkey -0.05 (-0.06) -0.02 -0.57 (-0.67)   0.24 ( 0.34)  0.07 -0.51 (-0.57) 
+UAE  1.73 ( 3.51)  0.82  1.40 ( 2.79)   0.16 ( 0.23)  0.06  0.21 ( 0.28) 
+United Kingdom  0.87 ( 5.37)  0.82  0.86 ( 4.83)   0.15 ( 0.57)  0.10 -0.06 (-0.19) 
+United States  0.34 ( 2.12)  0.32  0.30 ( 1.87)  -0.01 (-0.05) -0.01  0.06 ( 0.29) 
+Vietnam -0.11 (-0.22) -0.05 -0.37 (-0.70)  -1.41 (-3.58) -0.61 -1.81 (-3.05) 
+Global (pooled) 0.53 (5.02) 0.74 0.60 (4.14)  0.05 (0.24) 0.04 0.18 (0.66) 
+# |t-stat| > 1.96 23  23  13  12 
+ 
+
+
+--- PAGE 14 ---
+14 
+ 
+Table 2. Portfolio Performance Across Time and Firm Size 
+The table reports the mean monthly returns, Sharpe ratios, and alphas relative to the Fama-French six-factor model 
+on global portfolios tested on diﬀerent samples, as indicated in the ﬁrst row. These include time-and size-speciﬁc 
+samples of value-weighted portfolios, as well as the full, equal-weighted sample. An industry-adjusted short-term 
+reversal strategy follows the industry-relative formulation, in which stock returns are adjusted for industry eﬀects 
+before constructing the reversal signal. The long-short portfolios buy (sell) a value-weighted (equal-weighted) quintile 
+of stocks with the highest (lowest) relative underperformance (overperformance). The standard short-term reversal 
+strategy is based on raw past returns, where the long-short portfolios buy (sell), a value-weighted (equal-weighted) 
+quintile of stocks with the lowest (highest) recent returns. R is the mean monthly return, SR is the annualized Sharpe 
+ratio, and α represents the monthly alpha relative to the Fama-French six-factor model. t-statistics are reported in 
+parentheses, while the last row reports the number of markets with |t-statistic| > 1.96. R and α are expressed in 
+percent. The full study period is January 1990 – December 2023. 
+  Industry-adjusted short-term reversal  Standard short-term reversal 
+ R SR 𝛼   R SR α 
+First subperiod 1990-2006  0.67 ( 3.92) 0.79  0.87 ( 3.62)    0.15 ( 0.46)  0.09  0.62 ( 1.43) 
+Second subperiod 2007-2023   0.40 ( 3.15) 0.69  0.38 ( 2.59)   -0.05 (-0.18) -0.04 -0.25 (-0.83) 
+Micro caps  1.03 ( 7.55) 1.35  1.40 ( 6.54)   -0.39 (-1.89) -0.30 -0.06 (-0.20) 
+Small caps  0.78 ( 8.28) 1.28  0.76 ( 6.89)   -0.27 (-1.23) -0.20 -0.40 (-1.54) 
+Large caps  0.43 ( 4.38) 0.61  0.41 ( 3.57)    0.15 ( 0.72)  0.11  0.19 ( 0.73) 
+Global (equal-weighted)  0.91 ( 8.46) 1.43  0.93 ( 6.32)  -0.24 (-1.24) -0.19 -0.21 (-0.86) 
+ 
+ 
+
+
+--- PAGE 15 ---
+15 
+ 
+Table 3. Regret Anomaly and Spanning Against Industry-Adjusted Short-Term 
+Reversal  
+The table reports the performance of the regret strategy and the results of time-series spanning regressions estimated 
+separately for each market over the full sample period. The regret strategy follows Arisoy et al. (2024): long–short 
+portfolios buy (sell) value-weighted quintiles of stocks with the strongest underperformance (outperformance) relative 
+to the best-performing stock within the same industry. Panel B reports spanning regressions of regret returns on 
+industry-adjusted short-term reversal: 
+𝑅𝑖,𝑡
+𝑅𝐸𝐺=𝛼𝑅𝐸𝐺∣𝑅𝐸𝑉𝐼𝑁,𝑖+𝛽𝑅𝐸𝑉𝐼𝑁,𝑖𝑅𝑖,𝑡
+𝑅𝐸𝑉𝐼𝑁
++𝜀𝑖,𝑡, 
+where 𝑅𝑖,𝑡
+𝑅𝐸𝑉𝐼𝑁
+ denotes the return of the industry-adjusted reversal portfolio. The intercept 𝛼𝑅𝐸𝐺∣𝑅𝐸𝑉𝐼𝑁,𝑖 captures 
+the component of regret returns not explained by industry-adjusted reversal, and 𝛽𝑅𝐸𝑉𝐼𝑁,𝑖 measures exposure to the 
+industry-adjusted strategy. The last column reports adjusted 𝑅2. 𝑅 denotes the mean monthly return, 𝑆𝑅 the 
+annualized Sharpe ratio, and 𝛼 the monthly alpha relative to the Fama–French six-factor model. Newey–West (1987) 
+t-statistics are reported in parentheses. The last row (“# |t-stat| > 1.96”) reports the number of markets with 
+statistically signiﬁcant estimates. Returns and alphas are in percent. The sample period is January 1990 to December 
+2023. 
+ Panel A: Regret anomaly 
+  Panel B: Spanning vs industry-adjusted 
+short-term reversal 
+ R SR α   𝛼REG∣𝑅𝐸𝑉𝐼𝑁 𝛽𝑅𝐸𝑉𝐼𝑁  R2 
+Argentina  1.85 ( 3.47)  0.64  1.70 ( 2.29)   1.17 ( 2.38) 0.30 ( 3.12) 0.07 
+Australia  0.15 ( 0.71)  0.13 -0.08 (-0.38)  -0.05 (-0.25) 0.48 ( 8.66) 0.17 
+Austria  0.04 ( 0.18)  0.02  0.00 (-0.02)  -0.09 (-0.32) 0.56 ( 7.46) 0.27 
+Bangladesh  0.16 ( 0.41)  0.09  0.33 ( 1.02)   0.03 ( 0.10) 0.37 ( 6.90) 0.16 
+Belgium  0.51 ( 2.84)  0.35  0.38 ( 1.82)   0.60 ( 2.26) 0.48 ( 9.70) 0.22 
+Brazil  0.13 ( 0.39)  0.09  0.31 ( 0.93)   0.00 ( 0.01) 0.44 ( 4.41) 0.17 
+Bulgaria -0.27 (-0.41) -0.11 -0.36 (-0.54)  -0.13 (-0.24) 0.52 ( 2.82) 0.16 
+Canada -0.21 (-0.57) -0.09 -0.15 (-0.41)  -0.17 (-0.56) 0.35 ( 2.33) 0.12 
+Chile  0.55 ( 2.13)  0.35  0.21 ( 0.71)   0.32 ( 1.02) 0.49 ( 8.98) 0.22 
+China  0.38 ( 1.64)  0.29  0.37 ( 1.68)  -0.01 (-0.05) 0.38 ( 5.10) 0.16 
+Colombia  0.36 ( 0.96)  0.18 -0.17 (-0.45)  -0.25 (-0.77) 0.59 ( 6.35) 0.20 
+Côte d’Ivoire  0.67 ( 1.18)  0.32 -0.02 (-0.03)   0.58 ( 1.31) 0.32 ( 3.29) 0.10 
+Croatia -0.26 (-0.70) -0.16 -0.41 (-1.43)   0.04 ( 0.15) 0.54 ( 6.00) 0.35 
+Czech Republic  1.31 ( 2.12)  0.54  1.49 ( 1.60)   0.67 ( 1.27) 0.32 ( 1.01) 0.04 
+Denmark  0.15 ( 0.52)  0.09  0.23 ( 0.85)  -0.01 (-0.05) 0.40 ( 5.52) 0.15 
+Egypt  0.60 ( 1.24)  0.25  1.31 ( 2.90)   0.42 ( 1.06) 0.42 ( 4.40) 0.18 
+Finland  0.02 ( 0.07)  0.01  0.12 ( 0.41)  -0.38 (-1.14) 0.49 ( 7.50) 0.26 
+France  0.30 ( 1.66)  0.27  0.47 ( 2.34)   0.03 ( 0.15) 0.40 ( 7.19) 0.18 
+Germany  0.36 ( 1.71)  0.28  0.81 ( 3.32)   0.05 ( 0.28) 0.50 ( 7.18) 0.24 
+Greece  0.02 ( 0.05)  0.01  0.72 ( 1.85)  -0.53 (-1.15) 0.67 ( 7.33) 0.28 
+Hong Kong -0.23 (-0.86) -0.15 -0.22 (-0.83)  -0.18 (-0.85) 0.49 ( 6.80) 0.26 
+Hungary -0.08 (-0.17) -0.03 -0.10 (-0.14)  -0.34 (-0.67) 0.09 ( 1.14) 0.01 
+India  0.40 ( 1.44)  0.20  0.28 ( 1.12)   0.44 ( 2.18) 0.50 ( 8.22) 0.23 
+Indonesia -0.83 (-1.53) -0.32 -0.28 (-0.39)   0.70 ( 1.54) 0.58 ( 5.73) 0.30 
+Ireland  0.28 ( 0.65)  0.12  0.56 ( 1.36)  -0.15 (-0.38) 0.48 ( 5.29) 0.20 
+Israel  0.00 ( 0.00)  0.00  0.01 ( 0.02)  -0.31 (-1.23) 0.45 ( 8.80) 0.22 
+Italy -0.36 (-1.33) -0.27 -0.26 (-1.10)  -0.17 (-0.70) 0.52 ( 9.24) 0.19 
+Japan  0.43 ( 2.97)  0.48  0.63 ( 4.23)   0.09 ( 0.62) 0.41 ( 7.13) 0.30 
+Jordan -0.60 (-1.11) -0.29 -0.69 (-1.26)  -0.35 (-0.69) 0.59 ( 7.12) 0.26 
+Kuwait  0.22 ( 0.78)  0.14  0.30 ( 0.91)   0.31 ( 1.06) 0.62 (10.12) 0.33 
+Luxembourg  0.72 ( 1.32)  0.33  1.33 ( 1.00)   0.30 ( 0.64) 0.59 ( 7.54) 0.36 
+Malaysia  0.18 ( 0.82)  0.14  0.12 ( 0.56)   0.18 ( 0.74) 0.36 ( 3.78) 0.14 
+
+
+--- PAGE 16 ---
+16 
+ 
+Mauritius -0.67 (-2.04) -0.56 -0.69 (-1.97)  -0.64 (-2.11) 0.24 ( 2.17) 0.04 
+Mexico -0.09 (-0.35) -0.06 -0.14 (-0.57)   0.01 ( 0.05) 0.49 ( 8.59) 0.23 
+Morocco  0.36 ( 1.42)  0.31  0.29 ( 1.12)  -0.03 (-0.09) 0.37 ( 5.73) 0.13 
+Netherlands  0.80 ( 3.31)  0.48  0.81 ( 2.67)   0.67 ( 2.91) 0.58 ( 6.51) 0.22 
+New Zealand  0.19 ( 0.81)  0.15  0.17 ( 0.69)   0.04 ( 0.18) 0.28 ( 4.23) 0.09 
+Norway -0.37 (-1.07) -0.20 -0.39 (-1.27)  -0.34 (-1.09) 0.46 ( 7.02) 0.20 
+Oman -0.68 (-1.48) -0.37 -0.47 (-1.19)  -0.39 (-1.09) 0.51 ( 3.31) 0.27 
+Pakistan  0.37 ( 0.70)  0.17  1.17 ( 3.10)   0.16 ( 0.32) 0.51 ( 5.13) 0.18 
+Peru  0.83 ( 1.77)  0.38  0.46 ( 0.80)  -0.03 (-0.06) 0.62 ( 9.97) 0.29 
+Philippines  1.19 ( 2.43)  0.49  0.69 ( 2.02)  -0.01 (-0.04) 0.67 ( 4.18) 0.28 
+Poland  0.55 ( 1.78)  0.32  0.46 ( 1.58)   0.01 ( 0.04) 0.48 ( 6.71) 0.16 
+Portugal -0.06 (-0.19) -0.03 -0.08 (-0.21)   0.54 ( 1.78) 0.38 ( 5.39) 0.13 
+Qatar  0.49 ( 1.14)  0.24  0.93 ( 2.31)   0.09 ( 0.27) 0.48 ( 6.18) 0.17 
+Russia  0.88 ( 1.81)  0.40  0.87 ( 1.66)   0.71 ( 1.93) 0.54 ( 8.16) 0.34 
+Saudi Arabia  0.62 ( 2.20)  0.35  0.82 ( 2.08)  -0.07 (-0.17) 0.62 ( 8.16) 0.21 
+Singapore -0.11 (-0.39) -0.08 -0.33 (-1.39)  -0.22 (-0.88) 0.35 ( 2.97) 0.09 
+Slovenia  0.14 ( 0.30)  0.07  0.69 ( 1.01)  -0.54 (-1.54) 0.09 ( 1.02) 0.01 
+South Africa  0.67 ( 2.31)  0.42  0.69 ( 2.34)   0.23 ( 0.85) 0.57 ( 8.26) 0.19 
+South Korea  0.68 ( 1.62)  0.32  0.95 ( 3.06)   0.28 ( 0.77) 0.44 ( 3.76) 0.12 
+Spain  0.07 ( 0.31)  0.04  0.19 ( 0.73)  -0.24 (-1.18) 0.57 ( 9.47) 0.31 
+Sri Lanka  0.75 ( 1.49)  0.40  0.92 ( 1.98)  -0.26 (-0.49) 0.38 ( 3.07) 0.11 
+Sweden  0.40 ( 1.40)  0.25  0.60 ( 2.04)  -0.04 (-0.12) 0.43 ( 6.58) 0.14 
+Switzerland  0.02 ( 0.08)  0.01  0.47 ( 2.19)  -0.17 (-0.87) 0.50 ( 8.24) 0.26 
+Taiwan  0.78 ( 2.08)  0.38 -0.07 (-0.20)   0.80 ( 1.93) 0.35 ( 4.68) 0.07 
+Thailand  0.66 ( 2.03)  0.32  0.61 ( 2.00)   0.16 ( 0.54) 0.64 ( 6.18) 0.34 
+Trinidad and Tobago -0.27 (-1.14) -0.28 -0.48 (-1.79)   0.04 ( 0.17) 0.52 ( 4.63) 0.24 
+Tunisia  0.20 ( 0.59)  0.15  0.37 ( 1.38)   0.14 ( 0.41) 0.40 ( 3.42) 0.16 
+Turkey  0.07 ( 0.14)  0.03 -0.41 (-0.73)   0.50 ( 1.39) 0.27 ( 2.92) 0.17 
+UAE  1.54 ( 2.58)  0.70  1.35 ( 2.08)   0.06 ( 0.10) 0.54 (13.28) 0.26 
+United Kingdom  0.49 ( 2.37)  0.44  0.62 ( 3.55)  -0.04 (-0.20) 0.50 ( 7.96) 0.24 
+United States  0.27 ( 1.38)  0.24  0.65 ( 3.19)   0.15 ( 0.63) 0.34 ( 4.56) 0.10 
+Vietnam  0.28 ( 0.53)  0.14  0.31 ( 0.60)  -0.48 (-1.18) 0.60 (10.22) 0.34 
+Global (pooled) 0.40 (2.37) 0.42 0.39 (2.03)  0.25 (1.34) 0.30 (2.36) 0.05 
+# |t-stat| > 1.96 15  21  5   
+ 

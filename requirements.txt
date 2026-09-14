@@ -1,2 +1,6 @@
 alpaca-py==0.44.0
 python-dotenv==1.2.3
+pypdf==6.18.1
+numpy==2.5.3
+pandas==3.0.5
+pytest==9.1.1
