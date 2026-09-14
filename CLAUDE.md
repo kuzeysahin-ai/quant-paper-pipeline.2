@@ -96,6 +96,13 @@ system, not part of this repo's scope.
 - One-person operation, no second reviewer / risk committee. Subtle errors
   are more likely to go unnoticed — the owner has already experienced this
   firsthand with run #1's data-collection method.
+- **SSRN blocks automated access entirely** (Cloudflare bot challenge,
+  confirmed on multiple abstract IDs — not paper-specific). ScienceDirect
+  behaves the same way. Assume any SSRN/ScienceDirect link needs a manual
+  browser download from the owner; don't burn time retrying it
+  automatically. Check for an open-access mirror (university repository,
+  author's site) before asking the owner, but expect to ask often — a lot
+  of quant finance working papers live on SSRN first.
 
 ## How stage expectations should actually run
 
