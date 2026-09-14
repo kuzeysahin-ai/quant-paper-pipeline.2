@@ -1,0 +1,17 @@
+# Secrets — never commit
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# Data pulled from Alpaca / paper caches — regenerable, keep the repo light
+data/raw/
+data/cache/
+
+# OS
+.DS_Store
+Thumbs.db
