@@ -164,6 +164,30 @@ category as paper #2's).
 Paper #2's existing `SmartReversalSimulator` still predates the
 interface and has not been adapted to it.
 
+## Interface now dispatches for real; orchestrator built (2026-09-14, later same day)
+
+Owner's follow-up correctly pointed out that a fixed interface plus a
+real paper implementation still isn't automation if nothing connects
+them. Fixed:
+
+- `pipeline/interface.py`'s `reproduce_stage`/`verify_stage`/`sample_stage`
+  now **dispatch** (via `importlib`, since paper folder names have
+  hyphens) to `papers/<paper_slug>/reproduce/stage_impl.py` -- same
+  delegation pattern `read_stage` already used. Calling a stage for a
+  paper without a `stage_impl.py` (e.g. paper #2, still) raises
+  `FileNotFoundError` naming exactly what's missing.
+- `pipeline/run.py` -- the orchestrator. One command runs Read ->
+  Reproduce -> Verify -> Sample for a paper in sequence:
+  `python -m pipeline.run papers/paper-01-ssrn-6630998`. `read_stage`
+  now also reuses a cached `read_extraction_auto.json` instead of
+  re-calling the (paid) Claude API on every orchestrator run.
+- 6 new tests (`pipeline/test_interface.py` rewritten to test dispatch
+  instead of stub behavior, `pipeline/test_run.py` new) -- all passing,
+  31/31 across the whole repo. Confirmed the CLI (`python -m pipeline.run
+  papers/paper-01-ssrn-6630998`, no API key set) correctly reaches and
+  stops cleanly at the Read stage, proving the orchestrator really does
+  call stages in order rather than short-circuiting.
+
 ## Not done / open questions
 
 - **Owner decision (2026-09-14): paper #1 is now the priority.** Paper #2

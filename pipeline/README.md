@@ -50,13 +50,34 @@ writing any specific paper's Reproduce/Verify/Sample logic, on purpose:
 every paper from here on is a module written against this contract, not
 something that needs re-explaining from scratch.
 
-- `read_stage` is real (delegates to `read_stage.py`).
-- `reproduce_stage`, `verify_stage`, `sample_stage` are deliberate stubs
-  -- they raise `NotImplementedError` until a real paper fills them in.
-  `pipeline/test_interface.py` asserts they still do that (a stub that
-  silently started returning fake data would be worse than one that
-  loudly hasn't been built yet).
-- Paper #1 (Stosik & Zaremba, the owner's current priority) is the first
-  paper built directly against this interface. Paper #2's existing
-  `reproduce/strategy.py` predates the interface and hasn't been
-  adapted to it -- left as-is until/unless work on that paper resumes.
+- `read_stage` delegates to `read_stage.py` (real, calls the Claude API).
+  Reuses `read_extraction_auto.json` if present instead of re-calling the
+  API every run (`force=True` to override).
+- `reproduce_stage` / `verify_stage` / `sample_stage` **dispatch** to
+  `papers/<paper_slug>/reproduce/stage_impl.py` -- loaded dynamically via
+  `importlib` (paper directory names have hyphens, invalid in a dotted
+  Python import). A paper implements the contract by providing that file
+  with matching function signatures. Dispatching to a paper without one
+  raises `FileNotFoundError` naming exactly what's missing -- loud
+  failure, not a silent no-op or fake result.
+- Paper #1 (Stosik & Zaremba) is the first, and so far only, real
+  implementation -- see `papers/paper-01-ssrn-6630998/reproduce/`.
+  Paper #2's `reproduce/strategy.py` predates the interface and has no
+  `stage_impl.py`; dispatching to it fails loudly until/unless that gets
+  built.
+- `pipeline/test_interface.py` proves the dispatch actually reaches
+  paper #1's real code (not stubs) end to end, against synthetic data.
+
+## `run.py` -- the orchestrator
+
+Runs all four stages in sequence for one paper, via one command:
+
+```bash
+.venv\Scripts\python.exe -m pipeline.run papers/paper-01-ssrn-6630998
+```
+
+This is the piece that makes the interface an actual pipeline rather
+than four functions nobody calls in order. `pipeline/test_run.py`
+exercises it end to end (Read monkeypatched to skip the real API call;
+Reproduce/Verify/Sample run for real through the dispatch mechanism
+above, against synthetic data).
