@@ -14,12 +14,17 @@ any session that changes state. Read it first, before assuming what's done.
   (2026-09-14).
 - `.venv/` created; `alpaca-py==0.44.0` + `python-dotenv==1.2.3` installed,
   pinned in `requirements.txt`. (2026-09-14)
-- `.env.example` in place. Real `.env` with Alpaca keys is the owner's
-  step — not done yet as of this writing (do not assume it exists without
-  checking).
-- `scripts/smoke_test_alpaca.py` written — one-off connectivity check
-  (Trading API + Market Data API), explicitly NOT part of the pipeline
-  package. Not yet run successfully (blocked on real .env).
+- `.env.example` in place; owner created real `.env` with Alpaca keys
+  (2026-09-14) -- not committed, never read/pasted into chat by design.
+- `scripts/smoke_test_alpaca.py` written and **passing** -- one-off
+  connectivity check (Trading API + Market Data API), explicitly NOT part
+  of the pipeline package. Confirmed working (2026-09-14): paper account
+  active, $400,000 buying power (default paper balance), SPY daily bars
+  fetched via IEX feed successfully.
+  - Fix along the way: an unbounded query (no explicit `start`/`end`,
+    default feed) came back with zero bars -- free tier needs an explicit
+    date range and `feed=DataFeed.IEX`, an unanchored "recent" query
+    isn't enough. Now hardcoded in the script.
 - Alpaca account type confirmed: individual "Trading API" account (not
   Broker API, not data-only, not OAuth2 app platform) — gives one key
   pair covering both paper trading and market data, matching the
@@ -40,16 +45,13 @@ any session that changes state. Read it first, before assuming what's done.
 
 ## Not done / open questions
 
-- No first target paper chosen yet — owner said they'll name one, hasn't
+- No first target paper chosen yet -- owner said they'll name one, hasn't
   yet as of this writing.
-- Real `.env` not created / smoke test not run — first thing to verify in
-  the next session before anything else.
-- Repro/Verify/Sample code structure not designed yet — per CLAUDE.md,
+- Repro/Verify/Sample code structure not designed yet -- per CLAUDE.md,
   deliberately deferring generalization until 3+ papers are done; first
   paper's code will be paper-specific.
 
 ## Next step
 
-Waiting on: (1) first target paper from owner, (2) owner filling in real
-`.env` and running `scripts/smoke_test_alpaca.py` to confirm connectivity.
-Once both land: start Read stage on the chosen paper.
+Waiting on: first target paper from owner. Environment is fully verified
+and ready -- once a paper is named, start the Read stage immediately.

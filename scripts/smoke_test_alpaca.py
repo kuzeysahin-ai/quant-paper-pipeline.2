@@ -1,5 +1,5 @@
 """
-One-off connectivity check — NOT part of the pipeline.
+One-off connectivity check -- NOT part of the pipeline.
 
 Confirms the local environment can authenticate against Alpaca before any
 real Read/Reproduce/Verify/Sample work starts. Run once after setting up
@@ -30,10 +30,13 @@ if not key_id or key_id == "your-key-id" or not secret_key or secret_key == "you
     )
     sys.exit(1)
 
+from datetime import datetime, timedelta, timezone
+
 from alpaca.trading.client import TradingClient
 from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
+from alpaca.data.enums import DataFeed
 
 is_paper = "paper" in base_url
 
@@ -46,15 +49,36 @@ print(f"  paper account  : {is_paper}")
 print(f"  buying power   : {account.buying_power}")
 
 # --- Market data check: a few days of SPY daily bars ---
+# Explicit start/end + feed=IEX: without these, an unbounded "recent" query
+# can come back empty on the free tier (no SIP access, and "now" with no
+# start gives the server nothing to anchor a lookback window to).
+end = datetime.now(timezone.utc)
+start = end - timedelta(days=14)
+
 data_client = StockHistoricalDataClient(key_id, secret_key)
 request = StockBarsRequest(
     symbol_or_symbols=["SPY"],
     timeframe=TimeFrame.Day,
+    start=start,
+    end=end,
+    feed=DataFeed.IEX,
     limit=5,
 )
 bars = data_client.get_stock_bars(request)
+
+if "SPY" not in bars.data or not bars.data["SPY"]:
+    print(
+        "\nMarket Data API responded but returned zero SPY bars for "
+        f"{start.date()}..{end.date()} on the IEX feed.\n"
+        "Trading API auth is confirmed working above, so this is a data "
+        "query issue, not a credentials issue -- worth checking the Alpaca "
+        "dashboard for market data plan/subscription status.",
+        file=sys.stderr,
+    )
+    sys.exit(1)
+
 spy_bars = bars["SPY"]
-print(f"\nMarket Data API OK — last {len(spy_bars)} SPY daily bars:")
+print(f"\nMarket Data API OK -- last {len(spy_bars)} SPY daily bars:")
 for bar in spy_bars:
     print(f"  {bar.timestamp.date()}  close={bar.close}")
 
