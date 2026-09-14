@@ -90,10 +90,12 @@ loudly hasn't been built).
 
 ## Our real advantages (use them deliberately, don't just note them)
 
-- **Alpaca account** — free tier, 2016+ US equity/ETF daily data via IEX,
-  200 req/min, a real API. Replaces the WebFetch-scraping approach
-  entirely. Same platform will carry paper-trading and eventually small
-  live capital later — one integration, not three.
+- **Alpaca account** — free tier, US equity/ETF daily data via IEX (see
+  the corrected coverage-window note in "Our real constraints" below —
+  it is not the fixed 2016 start originally assumed here), 200 req/min,
+  a real API. Replaces the WebFetch-scraping approach entirely. Same
+  platform will carry paper-trading and eventually small live capital
+  later — one integration, not three.
 - **Local Claude Code** — real package installs, a persistent filesystem,
   an environment you can run and re-run and actually test in.
 - **Git history** — a written record of what was actually done, instead of
@@ -109,10 +111,20 @@ loudly hasn't been built).
 
 ## Our real constraints (design around these, don't discover them late)
 
-- No institutional data: even Alpaca's free tier doesn't go pre-2016, no
-  point-in-time restated fundamentals, no tick data. Some papers (old
-  period, high-frequency) are just not testable here — screen for this
-  *before* picking a paper, not after sinking time into it.
+- No institutional data, and Alpaca's free-tier IEX daily-bar history is
+  **shorter than originally assumed here**: empirically confirmed
+  2026-09-14 to be a ~6-year *rolling* window back from today (real floor
+  ~2020-07-27 as tested that day), not a fixed 2016 start — direct
+  `StockBarsRequest` probes at 2016/2018/2019/2020-06 all returned zero
+  rows; 2020-09 returned real data. Re-verify with the same kind of
+  direct probe before trusting any assumed start date again; don't just
+  reuse "2016" from memory. Also still true regardless of the floor's
+  exact location: no point-in-time restated fundamentals, no tick data.
+  Some papers (old period, high-frequency) are just not testable here —
+  screen for this *before* picking a paper, not after sinking time into
+  it. See `scripts/build_paper01_data.py`'s docstring for the full story
+  of how this was caught (a real bug: 33 months of silently-faked 0%
+  returns from treating a missing-data gap as a flat month).
 - Limited compute/scale — can't sweep thousands of variations or broad
   universes the way an institutional fund would.
 - No portfolio-level risk management yet — each strategy is tested in
@@ -143,14 +155,19 @@ loudly hasn't been built).
   effect size. Hou/Xue/Zhang found ~65% of 452 published anomalies lose
   significance under tighter tests. A failed Verify is a real scientific
   finding, not a bug to fix.
-- **Sample** is far more reliable now with Alpaca's 2016+ data than the
-  prior manual Yahoo-scraping approach — but data is still limited (no
-  options, no point-in-time fundamentals, no tick). Let that constraint
-  shape paper selection up front, not as a late, painful discovery.
+- **Sample** is far more reliable now with Alpaca's data than the prior
+  manual Yahoo-scraping approach — but data is still limited (no options,
+  no point-in-time fundamentals, no tick, and a shorter history window
+  than originally assumed — see "Our real constraints" above). Let that
+  constraint shape paper selection up front, not as a late, painful
+  discovery.
 
 ## Paper selection criteria (screen before committing time)
 
-- Testable with daily US equity/ETF data from 2016 onward (Alpaca/IEX).
+- Testable with daily US equity/ETF data from Alpaca/IEX's actual
+  coverage window (a ~6-year rolling window back from today, empirically
+  confirmed 2026-09-14 — NOT a fixed 2016 start; verify the current floor
+  directly before assuming it, see "Our real constraints" above).
 - No dependency on options data, point-in-time fundamentals, or tick data.
 - Bonus, actively sought: capacity-constrained / small-cap / low-liquidity
   edge that institutional-scale funds structurally can't run — this is

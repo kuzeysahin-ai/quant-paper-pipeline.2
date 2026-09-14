@@ -31,7 +31,14 @@ def _dummy_extraction(key_results=None):
 def _write_synthetic_data(tmp_path):
     dates = pd.to_datetime(["2020-01-31", "2020-02-29", "2020-03-31"])
     tickers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-    returns = pd.DataFrame(0.01, index=dates, columns=tickers)
+    # Distinct values per ticker, not all-identical -- identical values
+    # tie every rank to the same percentile and produce an EMPTY quintile
+    # selection (see monthly_long_short_returns' both-legs-empty ->  NaN
+    # fix and its test in test_portfolio.py), which made this fixture
+    # silently test nothing before that bug was caught.
+    returns = pd.DataFrame(
+        [[0.001 * i for i in range(len(tickers))] for _ in dates], index=dates, columns=tickers
+    )
     market_cap = pd.DataFrame(1_000_000.0, index=dates, columns=tickers)
     returns.to_csv(tmp_path / "returns.csv")
     market_cap.to_csv(tmp_path / "market_cap.csv")

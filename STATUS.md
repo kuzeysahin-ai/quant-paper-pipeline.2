@@ -164,6 +164,140 @@ category as paper #2's).
 Paper #2's existing `SmartReversalSimulator` still predates the
 interface and has not been adapted to it.
 
+## Real data connected; real Verify/Sample results (2026-09-14, later same day)
+
+**Built `scripts/build_paper01_data.py`** -- fetches Alpaca daily bars
+(IEX, split+dividend adjusted) for the S&P 500 universe, aggregates to
+monthly, and builds a point-in-time market-cap panel from SEC's
+`companyconcept` endpoint (`dei:EntityCommonStockSharesOutstanding`,
+selected by `filed` date to avoid look-ahead). 8 unit tests on the pure
+aggregation/point-in-time logic (synthetic data, no network), all
+passing. Full writeup and all data-source decisions:
+`papers/paper-01-ssrn-6630998/reproduce/README.md` and the script's own
+module docstring.
+
+**Two real bugs found and fixed while building this -- not assumptions,
+actual defects caught by looking at the real output rather than trusting
+it:**
+
+1. **CLAUDE.md's "Alpaca free tier goes back to 2016" claim is wrong.**
+   Empirically confirmed: `StockBarsRequest` with `feed=DataFeed.IEX`
+   returns zero rows for AAPL at 2016/2018/2019/2020-06 start dates; real
+   data starts ~2020-07-27. The actual depth is a ~6-year *rolling*
+   window back from today, not a fixed calendar year. **Corrected in
+   CLAUDE.md** (4 places) and in the data-build script, whose default
+   `--start` is now `2020-08-01`, not `2016-01-01`.
+2. **`monthly_long_short_returns` was silently turning "no data this
+   month" into a fake 0.0% return.** When both the long and short legs
+   came back empty (nothing passed the quintile filter), the code fell
+   through to `0.0 - 0.0 = 0.0` -- indistinguishable from a real month
+   where longs and shorts happened to cancel out. Caught because the
+   *first* full run (with the wrong 2016 start date, before fix #1) used
+   this fallback to quietly manufacture 33 fake "0% return" months
+   out of 106, which is exactly what inflated the sample size and
+   dragged statistics toward zero. **Fixed**: both-legs-empty now
+   produces `NaN` (excluded from the mean/count), not `0.0`. A single
+   leg being empty while the other has real data still falls back to
+   0% for that leg only -- a narrower, defensible case, kept as-is.
+   Regression tests added: `test_monthly_long_short_returns_missing_month_is_nan_not_zero`,
+   `test_monthly_long_short_returns_one_empty_leg_still_counts_other_leg`
+   in `papers/paper-01-ssrn-6630998/reproduce/test_portfolio.py`.
+
+**Universe/survivorship decision, made explicitly, not silently:**
+today's S&P 500 constituents (Wikipedia, which conveniently includes
+each company's CIK) intersected with Alpaca's currently-tradable active
+list, applied retroactively across the whole window. **This is
+survivorship-biased** -- no free point-in-time historical S&P 500
+membership source was found. Stated in full in
+`ReproduceResult.assumptions` every time `reproduce_stage` runs (visible
+in the run output below), not just in a doc file nobody reads at
+run time.
+
+### The real run
+
+```
+python -m pipeline.run papers/paper-01-ssrn-6630998
+```
+
+Read stage used a manually-authored `read_extraction_auto.json` seeded
+from the already-verified `read_notes.md` content (the real Claude-API
+Read automation, `pipeline/read_stage.py`, is still unvalidated --
+separate open item below, needs `ANTHROPIC_API_KEY`). This is real
+published-paper data either way, just not run through the untested
+automated extraction path yet -- noted so it isn't conflated with a
+validated `read_stage.py` run.
+
+**Reproduce**: 503 S&P 500 tickers (all tradable on Alpaca), 74 months
+of data (2020-08 to 2026-09), 73 monthly long-short observations
+(2020-09 to 2026-09).
+
+**Real numbers:**
+
+| Metric | Our result | Paper's published US figure |
+|---|---|---|
+| Mean monthly return | **0.517%** | 0.340% (t=2.12) |
+| t-statistic | **0.65** | 2.12 |
+| Annualized return | ~6.4% | -- |
+| Annualized Sharpe | ~0.27 | 0.32 |
+| % positive months | 48.6% | -- |
+| Median monthly return | -0.25% | -- |
+
+**`verify_stage` result**: `comparable=True, within_tolerance=True` (our
+0.517% vs. paper's 0.340%, within the ±0.20pp tolerance on the mean).
+
+**Honest read of this, not a spin**: the point estimate landing this
+close to the paper's published number is genuinely notable. But
+`verify_stage`'s tolerance check compares *only the mean* -- it has no
+significance test built in, and by that measure alone a result can pass
+"within tolerance" that would not survive any real significance test.
+Our own t-stat (0.65) is far below the paper's (2.12): **we cannot
+reject the null of no effect at any conventional significance level**,
+even though the published result could. This is not a clean replication
+success. It's much closer to what CLAUDE.md predicted going in --
+"expect most papers not to replicate at their published effect size" --
+and the fact that the point estimate happens to land near the paper's
+while significance collapses is itself the honest finding, not something
+to explain away.
+
+The return distribution is also notably right-skewed: median (-0.25%) is
+*negative* while the mean (+0.517%) is positive, driven by a small number
+of extreme months (best: Feb 2021 +35.6%, Jul 2026 +27.1%; worst: Jun
+2026 -11.6%). Checked whether these extreme months are a thin-coverage
+artifact (e.g. 2-3 tickers dominating an otherwise-empty portfolio) --
+**they are not**: Feb 2021 and Jul 2026 both had 83-88 tickers per leg,
+in line with every other month (typical range 84-88). The skew looks
+real, not a data-coverage artifact, but has not been investigated
+further than that -- open item below.
+
+**Sample result**: `mean_monthly_return_pct=0.517, n_months=72,
+pct_positive_months=48.6` -- identical mechanism/data to Reproduce, per
+design (Alpaca's window is short enough that there's no older period to
+reserve for Reproduce separately from a "current" one for Sample; see
+`stage_impl.py`'s `sample_stage` docstring).
+
+### Known gaps in this result, stated plainly
+
+- **`verify_stage`'s tolerance-on-mean-only design doesn't check
+  significance.** A t-stat/CI-aware comparison would be a real
+  improvement -- currently a design gap, not yet fixed.
+- **63/503 tickers lack SEC shares-outstanding data** (dual-class
+  companies like GOOGL/GOOG likely report under a different XBRL
+  concept; a handful of others, e.g. ABT, hit an observed SEC API
+  anomaly -- `"units":{"shares":{}}`, an empty dict instead of a
+  populated list, reproducible, not transient). These tickers are
+  excluded from value-weighting wherever their market cap is missing --
+  handled gracefully (`NaN`, not a crash), not silently included as
+  zero.
+- **The right-skewed return distribution (Feb 2021, Jul 2026 extreme
+  months) hasn't been investigated beyond ruling out thin coverage.**
+  Worth a closer look before drawing conclusions from the point estimate.
+- **Universe survivorship bias is unresolved** (stated above) -- no free
+  point-in-time index-membership source found.
+- **Read stage's Claude-API automation (`pipeline/read_stage.py`) is
+  still unvalidated against a real API call** -- this run used a
+  manually-seeded `read_extraction_auto.json` instead. Needs
+  `ANTHROPIC_API_KEY`, still the same open item from earlier.
+
 ## Interface now dispatches for real; orchestrator built (2026-09-14, later same day)
 
 Owner's follow-up correctly pointed out that a fixed interface plus a

@@ -12,6 +12,7 @@ __pycache__/
 data/raw/
 data/cache/
 papers/*/reproduce/cache/
+scripts/cache_paper01_data/
 
 # OS
 .DS_Store

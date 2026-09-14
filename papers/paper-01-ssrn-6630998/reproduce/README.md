@@ -59,8 +59,10 @@ code (paper #2's `SmartReversalSimulator` predates it).
   matching `pipeline.interface`'s signatures exactly. 6 unit tests against
   synthetic CSVs (no live network calls).
 
-**18/18 tests passing** (`cd` into this folder and run
-`../../../.venv/Scripts/python.exe -m pytest -v`).
+**20/20 tests passing** (`cd` into this folder and run
+`../../../.venv/Scripts/python.exe -m pytest -v`) -- 2 more than
+originally, added when a real bug was caught: see "Real data connected"
+below.
 
 **Design decisions recorded in `ReproduceResult.assumptions`, not
 silently baked in** (per CLAUDE.md's rigor principle):
@@ -75,21 +77,59 @@ silently baked in** (per CLAUDE.md's rigor principle):
 - Value-weighted quintiles (5 groups) -- the paper's headline Table 1-3
   numbers, not the equal-weighted variant it also reports.
 
-## Not built yet: real data for `reproduce_stage`/`sample_stage`
+## Real data connected (2026-09-14, later same day)
 
-`stage_impl.py` expects `data_dir/returns.csv` and
-`data_dir/market_cap.csv` (documented in its module docstring) -- neither
-is produced by a real pipeline yet. All tests above use synthetic CSVs.
-Still needed before this can run on real data:
+`scripts/build_paper01_data.py` builds `data_dir/returns.csv` and
+`data_dir/market_cap.csv` for real: Alpaca IEX daily bars (S&P 500
+universe, `Adjustment.ALL`) aggregated to monthly, market cap from SEC's
+`companyconcept` endpoint (point-in-time shares outstanding × price).
+Full data-source reasoning, including the survivorship-bias statement,
+is in that script's module docstring.
 
-- Real monthly returns from Alpaca for whatever US universe we settle
-  on. Alpaca's free tier gives daily bars; monthly returns need
-  aggregating from those (or fetching `TimeFrame.Month` bars directly if
-  the API supports it -- worth checking before hand-rolling aggregation).
-- Value-weighting requires market cap per stock per month. Alpaca doesn't
-  provide shares outstanding either -- SEC's `companyfacts` endpoint
-  (same API family as `industry_classification.py`) typically has this,
-  not yet investigated.
-- Which US universe, and the same survivorship-bias question flagged for
-  paper #2 applies here too if we use today's tradable-on-Alpaca list
-  applied retroactively.
+**Universe**: today's S&P 500 (Wikipedia, includes CIK directly)
+intersected with Alpaca's tradable-active list -- **survivorship-biased**,
+applied retroactively; no free point-in-time membership source found.
+Stated in `ReproduceResult.assumptions` on every real run, not just here.
+
+**Two real bugs found and fixed while wiring this up** (full detail in
+`STATUS.md`'s "Real data connected" entry):
+1. Alpaca's free-tier IEX daily bars do NOT go back to 2016 as CLAUDE.md
+   originally assumed -- real floor is ~2020-07-27 (a ~6-year rolling
+   window from today, empirically confirmed). Corrected in CLAUDE.md and
+   the data-build script's default `--start`.
+2. `monthly_long_short_returns` was silently converting "no data this
+   month" (both legs empty) into a fake `0.0` return instead of `NaN` --
+   inflated the observation count and dragged statistics toward zero.
+   Fixed; 2 regression tests added (`test_monthly_long_short_returns_missing_month_is_nan_not_zero`,
+   `..._one_empty_leg_still_counts_other_leg`).
+
+**Real run** (`python -m pipeline.run papers/paper-01-ssrn-6630998`,
+503 tickers, 73 monthly observations, 2020-09 to 2026-09):
+
+| Metric | Our result | Paper's published US figure |
+|---|---|---|
+| Mean monthly return | 0.517% | 0.340% (t=2.12) |
+| t-statistic | **0.65** | 2.12 |
+| Annualized Sharpe | ~0.27 | 0.32 |
+
+The point estimate lands close to the paper's, but our t-stat (0.65) is
+far below significance -- we cannot reject the null of no effect, even
+though the paper's own result could. Not a clean replication success;
+consistent with CLAUDE.md's expectation that most papers won't replicate
+at their published effect size. Full honest writeup, including the
+right-skewed return distribution (median negative, mean positive, driven
+by a few extreme months that were checked and are NOT a thin-coverage
+artifact): `STATUS.md`.
+
+### Still open
+
+- `verify_stage`'s tolerance check compares only the mean, no
+  significance test -- a real design gap, not yet fixed.
+- 63/503 tickers lack SEC shares-outstanding data (dual-class tickers,
+  and a handful of SEC API anomalies like ABT's empty-dict response) --
+  excluded from value-weighting where missing, not a crash.
+- The extreme-month skew (Feb 2021, Jul 2026) hasn't been investigated
+  beyond ruling out thin coverage.
+- Universe survivorship bias remains unresolved.
+- Read stage's Claude-API automation is still unvalidated against a real
+  call -- this run used a manually-seeded `read_extraction_auto.json`.

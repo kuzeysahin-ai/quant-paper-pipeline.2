@@ -1,0 +1,41 @@
+{
+  "title": "Short-Term Reversal Persists Globally -- If Properly Measured",
+  "authors": ["Jan Stosik", "Adam Zaremba"],
+  "venue": "Economics Letters",
+  "year": 2026,
+  "data_sample": "Monthly stock-level panel, 64 developed and emerging countries, January 1990 to December 2023. US data from CRSP, international from Compustat, all returns in USD. Filters: common stocks on main exchanges only; excludes missing returns, price <= $1, missing industry code, nano-caps; requires >=10 stocks per country-month. Sample: 7,206-21,698 stocks/month, avg 14,193, 5,790,595 total stock-month observations.",
+  "signals": [
+    {
+      "name": "Standard reversal",
+      "definition": "Raw prior-month return, R_{i,t-1}.",
+      "formation_period": "prior month"
+    },
+    {
+      "name": "Industry-adjusted reversal",
+      "definition": "REV_IN = R_{i,t-1} - mean(R_{j,t-1}) across a stock's industry peers, i.e. a stock's prior-month return minus its industry peers' average prior-month return.",
+      "formation_period": "prior month"
+    },
+    {
+      "name": "Regret-based reversal",
+      "definition": "REG = R_{i,t-1} - max(R_{k,t-1} for k in the same industry), deviation from the best-performing peer in the industry (Arisoy et al. 2024). Per the paper's own spanning regression, subsumed by industry-adjusted reversal and not independently useful.",
+      "formation_period": "prior month"
+    }
+  ],
+  "portfolio_construction": "Within each country and month, sort stocks into quintiles by signal. Long the bottom quintile (worst relative performers), short the top quintile (best relative performers). Both equal- and value-weighted variants computed; headline/Table 1-3 results use value-weighted. Monthly rebalance, no formation/holding lag subtlety beyond the standard one-month reversal window.",
+  "key_results": [
+    {"label": "Global (pooled)", "metric": "standard reversal monthly return", "value": "0.05", "significance": "t=0.24"},
+    {"label": "Global (pooled)", "metric": "industry-adjusted reversal monthly return", "value": "0.53", "significance": "t=5.02, Sharpe=0.74, alpha=0.60 (t=4.14)"},
+    {"label": "United States", "metric": "standard reversal monthly return", "value": "-0.01", "significance": "t=-0.05"},
+    {"label": "United States", "metric": "industry-adjusted reversal monthly return", "value": "0.34", "significance": "t=2.12, Sharpe=0.32, alpha=0.30 (t=1.87)"},
+    {"label": "United States", "metric": "regret-based reversal monthly return", "value": "0.27", "significance": "t=1.38, spanning alpha vs industry-adjusted=0.15 (t=0.63, insignificant)"},
+    {"label": "United Kingdom", "metric": "industry-adjusted reversal monthly return", "value": "0.87", "significance": "t=5.37"},
+    {"label": "Japan", "metric": "industry-adjusted reversal monthly return", "value": "0.82", "significance": "t=4.63"}
+  ],
+  "central_claim": "Short-term reversal appears to have weakened in modern, liquid markets, but this is a measurement artifact: raw return signals mix a firm-specific component (which reverses) with an industry-wide component (which persists). Stripping out the industry component via an industry-adjusted signal restores a large, statistically significant reversal effect across international equity markets, including large developed markets like the US, UK, and Japan.",
+  "testability_notes": "Sample runs through Dec 2023, which overlaps Alpaca's 2016+ coverage for the tail of the paper's own 'second subperiod' (2007-2023) -- unlike paper #2, whose sample ends entirely before 2016. Only the US row is realistically testable with Alpaca (US equities only); the industry-adjusted signal additionally requires an industry classification Alpaca doesn't provide (resolved separately via SEC EDGAR + Fama-French 12, see papers/paper-01-ssrn-6630998/reproduce/). The US result is the paper's weakest major-market result (t=2.12 vs UK 5.37, Japan 4.63), so a genuine replication attempt should not expect UK/Japan-level significance. The regret-based signal doesn't need separate testing since the paper's own spanning regression shows it's subsumed by industry-adjusted reversal.",
+  "open_questions": [
+    "The paper doesn't specify its industry taxonomy (likely GICS or a Compustat/CRSP-standard scheme) -- we substitute Fama-French 12, a standard but different classification.",
+    "Whether the industry peer mean includes or excludes the stock itself ('peers' is ambiguous) -- we assume exclusion (leave-one-out).",
+    "No US-only subperiod breakdown is reported in the main tables, only global pooled -- we can't check whether the US-specific effect has weakened over time within the paper's own results."
+  ]
+}

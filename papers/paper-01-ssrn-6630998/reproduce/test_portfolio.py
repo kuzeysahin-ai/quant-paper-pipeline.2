@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -48,3 +49,48 @@ def test_monthly_long_short_returns_end_to_end_persistent_loser_and_winner():
     assert list(result.index) == list(dates[1:])
     assert (result["n_long"] == 2).all()
     assert (result["n_short"] == 2).all()
+
+
+def test_monthly_long_short_returns_missing_month_is_nan_not_zero():
+    """A formation month with no usable signal/market-cap data at all
+    (both legs empty) must produce a NaN observation, not a fake 0.0%
+    return -- recording 0.0 would silently inflate the sample size and
+    pull the mean/hit-rate toward zero. Caught via a real bug: an Alpaca
+    data-coverage gap produced 33 months like this before this fix (see
+    STATUS.md)."""
+    dates = pd.to_datetime(["2020-01-31", "2020-02-29", "2020-03-31"])
+    # Only 3 tickers total -- always below n_groups=5, so every month's
+    # quintile selection is empty regardless of data.
+    signal = pd.DataFrame({"A": [1.0, 2.0, 3.0], "B": [2.0, 3.0, 4.0], "C": [3.0, 4.0, 5.0]}, index=dates)
+    returns = signal.copy()
+    market_cap = pd.DataFrame(1.0, index=dates, columns=signal.columns)
+
+    result = monthly_long_short_returns(signal, returns, market_cap, n_groups=5)
+
+    assert (result["n_long"] == 0).all()
+    assert (result["n_short"] == 0).all()
+    assert result["long_short_return"].isna().all()
+    assert result["long_return"].isna().all()
+    assert result["short_return"].isna().all()
+
+
+def test_monthly_long_short_returns_one_empty_leg_still_counts_other_leg():
+    """Distinct from the both-empty case: if the long leg's tickers were
+    selected fine but their realization-month RETURN is missing while
+    the short leg's is not, the long leg contributes 0% (not NaN) while
+    the short leg's real return still counts -- this is the narrower,
+    still-valid use of the old zero-fill behavior."""
+    dates = pd.to_datetime(["2020-01-31", "2020-02-29"])
+    signal = pd.DataFrame({f"T{i}": [float(i), float(i)] for i in range(10)}, index=dates)
+    returns = signal.copy()
+    market_cap = pd.DataFrame(1.0, index=dates, columns=signal.columns)
+    # Selected fine at formation (dates[0], fully valid); missing only
+    # their REALIZATION-month (dates[1]) return.
+    returns.loc[dates[1], ["T0", "T1"]] = np.nan
+
+    result = monthly_long_short_returns(signal, returns, market_cap, n_groups=5)
+    row = result.loc[dates[1]]
+    assert row["n_long"] == 2  # still selected -- missing data is about realization, not selection
+    assert pd.isna(row["long_return"])  # no usable realized return for either long ticker
+    assert not pd.isna(row["short_return"])  # short leg (T8,T9) has real data
+    assert row["long_short_return"] == pytest.approx(0.0 - row["short_return"])

@@ -57,6 +57,23 @@ REPRODUCE_ASSUMPTIONS = [
     "paper's 'prior-month return' framing.",
     "Value-weighted quintiles (5 groups), matching the paper's headline "
     "Table 1-3 results, not the equal-weighted variant it also reports.",
+    # Data-source assumptions (see scripts/build_paper01_data.py's module
+    # docstring for the full reasoning behind each of these):
+    "UNIVERSE IS SURVIVORSHIP-BIASED: today's S&P 500 constituents "
+    "intersected with Alpaca's currently-active tradable list, applied "
+    "across the whole backtest window. Stocks delisted, acquired, or "
+    "dropped from the index during that window are entirely absent -- "
+    "this likely biases the reversal effect upward, since failing "
+    "companies (disproportionately 'losers') are systematically excluded.",
+    "Prices are Alpaca IEX daily bars, split+dividend adjusted "
+    "(Adjustment.ALL) -- a total-return proxy, aggregated to monthly via "
+    "last-trading-day-of-month close.",
+    "Market cap uses point-in-time shares outstanding from SEC's "
+    "companyconcept endpoint (most recent value FILED on or before the "
+    "formation month, not the report's cover/end date -- avoids "
+    "look-ahead bias) times that month's close price; the share count "
+    "itself can be up to one quarter stale relative to actual "
+    "buybacks/issuance between SEC filings.",
 ]
 
 
@@ -182,7 +199,9 @@ def verify_stage(
 def sample_stage(reproduce_result: ReproduceResult, data_dir: Path) -> SampleResult:
     """
     Re-runs the same backtest mechanism against whatever's in data_dir --
-    intended to be a CURRENT (2016+) data window, separate from any
+    intended to be a CURRENT data window (Alpaca IEX's actual depth is
+    ~6 years rolling back from today, not 2016 -- see
+    scripts/build_paper01_data.py's docstring), separate from any
     period used for a Verify comparison. Same mechanism as
     reproduce_stage; the difference is meant to be the data_dir contents,
     not the code path.
