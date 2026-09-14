@@ -11,6 +11,7 @@ __pycache__/
 # Data pulled from Alpaca / paper caches — regenerable, keep the repo light
 data/raw/
 data/cache/
+papers/*/reproduce/cache/
 
 # OS
 .DS_Store

@@ -139,3 +139,12 @@ See `STATUS.md` for current environment/dependency state.
 Read tool's native PDF page-rendering doesn't work. Extract text with
 `pypdf` to a `.txt` file next to `source.pdf`, then read the `.txt`
 (pattern used in `papers/paper-0N-*/extracted_text.txt`).
+
+**SEC EDGAR** (free, no auth, covers all SEC-reporting companies) fills
+gaps Alpaca doesn't cover: SIC/industry classification confirmed (see
+`papers/paper-01-ssrn-6630998/reproduce/industry_classification.py`),
+shares outstanding / market cap likely available via the `companyfacts`
+endpoint (not yet used). Requires a descriptive `User-Agent` header with
+contact info and a self-imposed rate limit (~10 req/sec max per SEC's
+policy) — see that module for the pattern (ticker->CIK cached once,
+per-CIK lookups cached and rate-limited).

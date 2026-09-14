@@ -22,10 +22,21 @@ any session that changes state. Read it first, before assuming what's done.
   regret-based signal (3rd variant tested) is subsumed by
   industry-adjusted reversal per their own spanning regression, so we
   don't need to build it separately.
-  **Blocker before Reproduce**: needs industry classification data
-  (GICS/SIC or similar) for US stocks -- Alpaca doesn't provide this,
-  no source lined up yet. Same category of open question as paper #2's
-  universe problem below.
+  **Blocker RESOLVED (2026-09-14)**: Alpaca confirmed to have no
+  sector/industry field on its asset metadata (checked directly). Built
+  `papers/paper-01-ssrn-6630998/reproduce/industry_classification.py` --
+  free SIC codes from SEC EDGAR (ticker->CIK via
+  `company_tickers.json`, then per-company `submissions` endpoint),
+  mapped to the Fama-French 12-industry scheme via Ken French's official
+  SIC ranges. Spot-checked against 8 real tickers (AAPL, MSFT, JPM, XOM,
+  KO, JNJ, T, DUK) -- all classified correctly. 4 unit tests on the
+  mapping logic passing (network-free). Owner chose to prioritize this
+  paper over paper #2 (see below) -- this is now the active line of work.
+  **Not yet built**: the actual signal computation (industry-adjusted
+  monthly return vs. FF12 peers), monthly return aggregation from
+  Alpaca's daily bars, and market-cap data for value-weighting (shares
+  outstanding -- likely also available via SEC's companyfacts endpoint,
+  not yet checked). See `reproduce/README.md`.
 - **Paper #2**: de Groot, Huij & Zhou (2012), "Another Look at Trading
   Costs and Short-Term Reversal Profits," JBF 36:371-382 -- the primary
   source behind Quantpedia's "Short Term Reversal Effect in Stocks" page.
@@ -87,22 +98,23 @@ any session that changes state. Read it first, before assuming what's done.
 
 ## Not done / open questions
 
-- **Two open data-source questions block real Reproduce/Sample work on
-  both papers, and they're the same category of problem:**
-  1. Paper #2: point-in-time historical "100 largest US stocks"
-     membership, without survivorship bias. No free source lined up.
-  2. Paper #1: industry classification (GICS/SIC) for US stocks. No
-     free source lined up. Alpaca provides neither.
-  Both need to be resolved -- or a documented, honest simplification
-  chosen -- before either paper can move past mechanism-only code.
-- pandas/numpy/pytest installed and pinned; PDF text extraction now uses
-  pypdf (poppler/pdftoppm isn't installed locally, Read tool's native PDF
-  rendering doesn't work here -- worth remembering for future papers:
-  extract to a .txt file next to source.pdf, then read that).
+- **Owner decision (2026-09-14): paper #1 is now the priority.** Paper #2
+  is parked with its own open question (point-in-time historical "100
+  largest US stocks" membership, without survivorship bias -- no free
+  source lined up yet, see `papers/paper-02-groot-huij-zhou-2012/reproduce/README.md`)
+  until we come back to it.
+- Paper #1: industry classification is resolved (see above). Still open:
+  monthly return aggregation from Alpaca, market cap / shares outstanding
+  for value-weighting (SEC companyfacts endpoint likely has this, not
+  yet checked), and then the actual signal + portfolio construction code.
+- pandas/numpy/pytest/requests installed and pinned; PDF text extraction
+  uses pypdf (poppler/pdftoppm isn't installed locally, Read tool's
+  native PDF rendering doesn't work here -- extract to a .txt file next
+  to source.pdf, then read that -- see CLAUDE.md).
 
 ## Next step
 
-Resolve the two data-source questions above (owner input likely needed --
-neither has an obvious free answer yet). Once at least one is resolved,
-finish wiring that paper's Reproduce stage to real Alpaca/other data and
-move to Sample.
+Paper #1: check SEC companyfacts (or another free source) for shares
+outstanding / market cap, then build monthly-return aggregation from
+Alpaca daily bars, then the industry-adjusted reversal signal and
+quintile portfolio construction itself.
