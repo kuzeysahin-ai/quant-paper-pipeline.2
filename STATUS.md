@@ -144,11 +144,25 @@ This is the actual start of "automation" in the structural sense: going
 forward, a new paper means filling in this fixed interface, not
 re-explaining the pipeline shape from scratch each time.
 
-**Next step is paper #1 (Stosik & Zaremba), built directly against this
-interface** -- the first paper to be a real implementation of
-`reproduce_stage`/`verify_stage`/`sample_stage` rather than bespoke code.
-Paper #2's existing `SmartReversalSimulator` predates the interface and
-is not yet adapted to it.
+**Done**: paper #1's `reproduce_stage`/`verify_stage`/`sample_stage` are
+now real implementations against this interface --
+`papers/paper-01-ssrn-6630998/reproduce/stage_impl.py`, built on two new
+modules: `reversal_signal.py` (the industry-adjusted reversal signal,
+leave-one-out peer mean) and `portfolio.py` (quintile value-weighted
+long-short construction). 18/18 tests passing (synthetic data, no live
+network calls -- see that folder's README.md for the design decisions
+recorded in `ReproduceResult.assumptions`).
+
+**Still blocked on real data**: `reproduce_stage`/`sample_stage` expect
+`data_dir/returns.csv` + `data_dir/market_cap.csv` (documented in
+`stage_impl.py`'s docstring) -- nothing produces these from Alpaca/SEC
+yet. Same open questions as before: monthly-return aggregation from
+Alpaca daily bars, a market-cap source (likely SEC `companyfacts`, not
+yet checked), and which US universe (survivorship-bias question, same
+category as paper #2's).
+
+Paper #2's existing `SmartReversalSimulator` still predates the
+interface and has not been adapted to it.
 
 ## Not done / open questions
 

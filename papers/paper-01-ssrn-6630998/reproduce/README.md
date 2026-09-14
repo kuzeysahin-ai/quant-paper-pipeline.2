@@ -42,18 +42,54 @@ servers: `industry_classification.py` rate-limits itself to ~6-7
 req/sec, under their ~10/sec guidance, and every request carries a
 descriptive `User-Agent` with contact info as SEC's usage policy asks.
 
-## Not built yet
+## Reproduce/Verify/Sample: implemented against the fixed pipeline interface
 
-- The actual industry-adjusted reversal signal computation
-  (`R_i,t-1 - mean(R_j,t-1)` within each FF12 group) and the monthly
-  quintile portfolio construction -- straightforward once real monthly
-  return data is on hand, not yet wired up.
-- Real monthly returns from Alpaca for whatever US universe we settle on.
-  Alpaca's free tier gives daily bars; monthly returns need aggregating
-  from those (or fetching TimeFrame.Month bars directly if the API
-  supports it -- worth checking before hand-rolling aggregation).
+Built directly against `pipeline/interface.py` (2026-09-14) -- the first
+paper to be a real implementation of that contract rather than bespoke
+code (paper #2's `SmartReversalSimulator` predates it).
+
+- `reversal_signal.py` -- `industry_adjusted_reversal_signal`: leave-one-out
+  industry-peer-mean reversal signal, `REV_IN_{i,t} = R_{i,t} -
+  mean(R_{j,t}, j != i, j in industry(i))`. 3 unit tests, hand-verified
+  arithmetic (not just "it runs").
+- `portfolio.py` -- `monthly_long_short_returns`: quintile sort, value-weighted
+  long (bottom quintile) / short (top quintile), one-month formation-to-holding
+  lag. 5 unit tests.
+- `stage_impl.py` -- `reproduce_stage` / `verify_stage` / `sample_stage`
+  matching `pipeline.interface`'s signatures exactly. 6 unit tests against
+  synthetic CSVs (no live network calls).
+
+**18/18 tests passing** (`cd` into this folder and run
+`../../../.venv/Scripts/python.exe -m pytest -v`).
+
+**Design decisions recorded in `ReproduceResult.assumptions`, not
+silently baked in** (per CLAUDE.md's rigor principle):
+- Leave-one-out industry mean (paper says "peers," doesn't specify
+  whether that excludes the stock itself -- read the more conservative
+  way).
+- Fama-French 12 industry classification, static for the whole sample --
+  not the paper's own unspecified taxonomy, and doesn't model a stock
+  changing industry mid-sample.
+- One-month formation-to-holding lag (signal from month t, portfolio
+  held in month t+1), matching the paper's "prior-month return" framing.
+- Value-weighted quintiles (5 groups) -- the paper's headline Table 1-3
+  numbers, not the equal-weighted variant it also reports.
+
+## Not built yet: real data for `reproduce_stage`/`sample_stage`
+
+`stage_impl.py` expects `data_dir/returns.csv` and
+`data_dir/market_cap.csv` (documented in its module docstring) -- neither
+is produced by a real pipeline yet. All tests above use synthetic CSVs.
+Still needed before this can run on real data:
+
+- Real monthly returns from Alpaca for whatever US universe we settle
+  on. Alpaca's free tier gives daily bars; monthly returns need
+  aggregating from those (or fetching `TimeFrame.Month` bars directly if
+  the API supports it -- worth checking before hand-rolling aggregation).
 - Value-weighting requires market cap per stock per month. Alpaca doesn't
-  provide shares outstanding either -- another small data gap to solve,
-  smaller than the industry-classification one since SEC's `companyfacts`
-  endpoint (same API family used here) typically has this too, not yet
-  investigated.
+  provide shares outstanding either -- SEC's `companyfacts` endpoint
+  (same API family as `industry_classification.py`) typically has this,
+  not yet investigated.
+- Which US universe, and the same survivorship-bias question flagged for
+  paper #2 applies here too if we use today's tradable-on-Alpaca list
+  applied retroactively.
