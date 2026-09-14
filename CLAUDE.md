@@ -44,6 +44,18 @@ this file was built to stop. Human review of the script's output is
 still expected and still valuable; the automation is in the extraction
 step, not in skipping verification.
 
+## The fixed pipeline interface — every paper implements this, don't reinvent it
+
+`pipeline/interface.py` defines `read_stage` / `reproduce_stage` /
+`verify_stage` / `sample_stage` — names, I/O dataclasses, and
+responsibilities, fixed on 2026-09-14 before any paper's Reproduce logic
+was written. Before writing a new paper's Reproduce/Verify/Sample code,
+check this file first: extend it or implement against it, don't design a
+new ad hoc shape per paper. Read is real; the other three are stubs that
+raise `NotImplementedError` until a paper actually fills them in — that's
+intentional (a stub silently faking a result would be worse than one that
+loudly hasn't been built).
+
 ## Two AI tools, no live connection between them — read this before assuming context
 
 - **Cowork** (cloud sandbox, separate conversation) — used for research and

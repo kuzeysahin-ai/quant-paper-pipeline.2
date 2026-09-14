@@ -125,6 +125,31 @@ conversation required. See `pipeline/README.md`.
   which stays paper-specific per CLAUDE.md until 3+ papers exist and
   common patterns actually emerge.
 
+## Fixed pipeline interface (2026-09-14)
+
+Per the owner's direction (relayed from the Cowork planning session):
+before writing paper #1's actual Reproduce logic, locked in the
+four-stage contract as real code -- `pipeline/interface.py`:
+
+- `read_stage(paper_dir) -> ReadExtraction` -- **real**, delegates to
+  `pipeline/read_stage.py`.
+- `reproduce_stage(extraction, data_dir) -> ReproduceResult` -- **stub**,
+  raises `NotImplementedError`.
+- `verify_stage(reproduce_result, extraction) -> VerifyResult` -- **stub**.
+- `sample_stage(reproduce_result, data_dir) -> SampleResult` -- **stub**.
+
+`pipeline/test_interface.py` (4 tests, all passing) confirms the stubs
+import cleanly and fail loudly rather than silently faking a result.
+This is the actual start of "automation" in the structural sense: going
+forward, a new paper means filling in this fixed interface, not
+re-explaining the pipeline shape from scratch each time.
+
+**Next step is paper #1 (Stosik & Zaremba), built directly against this
+interface** -- the first paper to be a real implementation of
+`reproduce_stage`/`verify_stage`/`sample_stage` rather than bespoke code.
+Paper #2's existing `SmartReversalSimulator` predates the interface and
+is not yet adapted to it.
+
 ## Not done / open questions
 
 - **Owner decision (2026-09-14): paper #1 is now the priority.** Paper #2

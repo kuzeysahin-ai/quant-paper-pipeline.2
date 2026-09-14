@@ -40,3 +40,23 @@ to check whether the automated first pass is actually trustworthy.
 draft generator, not a fully autonomous, unsupervised Read stage. Per
 CLAUDE.md: extraction "won't be fully correct on the first attempt;
 that's normal, not a failure."
+
+## `interface.py`
+
+The fixed four-stage contract: `read_stage`, `reproduce_stage`,
+`verify_stage`, `sample_stage` -- names, input/output dataclasses, and
+one-line responsibilities, in one place. Built 2026-09-14 **before**
+writing any specific paper's Reproduce/Verify/Sample logic, on purpose:
+every paper from here on is a module written against this contract, not
+something that needs re-explaining from scratch.
+
+- `read_stage` is real (delegates to `read_stage.py`).
+- `reproduce_stage`, `verify_stage`, `sample_stage` are deliberate stubs
+  -- they raise `NotImplementedError` until a real paper fills them in.
+  `pipeline/test_interface.py` asserts they still do that (a stub that
+  silently started returning fake data would be worse than one that
+  loudly hasn't been built yet).
+- Paper #1 (Stosik & Zaremba, the owner's current priority) is the first
+  paper built directly against this interface. Paper #2's existing
+  `reproduce/strategy.py` predates the interface and hasn't been
+  adapted to it -- left as-is until/unless work on that paper resumes.
